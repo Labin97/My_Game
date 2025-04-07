@@ -4,27 +4,21 @@ using System.Collections;
 public class Hero : MonoBehaviour {
 
     private Animator            m_animator;
-    private Sensor_Hero         m_hitSensor;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
-    private float m_invincibleTimer = 1.0f;
+    private Hero_Stats          m_stats;
+    private WeaponCollider      m_weaponCollider;
 
 
     // Use this for initialization
     void Start () {
         m_animator = GetComponent<Animator>();
-        m_hitSensor = transform.Find("HitSensor").GetComponent<Sensor_Hero>();
+        m_stats = GetComponent<Hero_Stats>();
+        m_weaponCollider = transform.Find("WeaponCollider").GetComponent<WeaponCollider>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //Hurt
-        if (m_hitSensor.State())
-        {
-            m_animator.SetTrigger("Hurt");
-            m_hitSensor.Disable(m_invincibleTimer);
-        }
-
         //Animation Lock
         AnimatorStateInfo stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsTag("Lock"))
@@ -45,14 +39,18 @@ public class Hero : MonoBehaviour {
         bool isGuarding = Input.GetMouseButton(1);
         m_animator.SetBool("Guard", isGuarding);
 
-        //Attack
-        if(Input.GetMouseButtonDown(0)) {
-            m_animator.SetTrigger("Attack");
-        }
+        if (!m_animator.GetBool("Guard"))
+        {
+            //Attack
+            if(Input.GetMouseButtonDown(0)) {
+                //공격 속도 적용
+                StartCoroutine(PlayAttackAnimation());
+            }
 
-        //Parrying
-        else if(Input.GetKeyDown("f"))
-            m_animator.SetTrigger("Parrying");
+            //Parrying
+            else if(Input.GetKeyDown("f"))
+                m_animator.SetTrigger("Parrying");
+        }
 
         //Death
         else if (Input.GetKeyDown("e")) {
@@ -77,4 +75,32 @@ public class Hero : MonoBehaviour {
             m_animator.SetInteger("AnimState", 0);
 
     }
+
+    //공격 코루틴
+    IEnumerator PlayAttackAnimation()
+    {
+        m_animator.speed = m_stats.attackSpeedMultiplier;
+        m_animator.SetTrigger("Attack");
+
+
+        //애니메이션 기다림
+        AnimatorClipInfo[] clipInfos = m_animator.GetCurrentAnimatorClipInfo(0);
+        //만약 재생중인 애니메이션이 있다면 그 길이를 가져옴. 없다면 0.5초 반환
+        float clipLength = clipInfos.Length > 0 ? clipInfos[0].clip.length : 0.5f; // fallback 0.5초
+        yield return new WaitForSeconds(clipLength / m_stats.attackSpeedMultiplier);
+
+        m_animator.speed = 1.0f;
+    }
+
+    //공격 애니메이션 용 이벤트
+    public void EnableWeaponCollider()
+    {
+        m_weaponCollider.EnableCollider();
+    }
+
+    public void DisableWeaponCollider()
+    {
+        m_weaponCollider.DisableCollider();
+    }
+
 }

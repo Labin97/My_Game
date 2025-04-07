@@ -4,36 +4,54 @@ using UnityEngine;
 
 public class Moster : MonoBehaviour
 {
-    public WeaponCollider weapon;
-    public Vector2 attackColliderSize = new Vector2(2.0f, 1.0f);
-    private Animator animator;
+    private Animator m_animator;
+    private Monster_Stats          m_stats;
+    [SerializeField]
+    private List<WeaponCollider> weaponColliders;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        m_animator = GetComponent<Animator>();
+        m_stats = GetComponent<Monster_Stats>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))  // 예시: K를 누르면 공격
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            Attack();
+            StartCoroutine(PlayAttackAnimation(1));
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartCoroutine(PlayAttackAnimation(2));
         }
     }
 
-    void Attack()
+    IEnumerator PlayAttackAnimation(float attackType)
     {
-        animator.SetTrigger("Attack");
+        m_animator.speed = m_stats.attackSpeedMultiplier;
+        m_animator.SetTrigger("Attack" + attackType);
+
+
+        //애니메이션 기다림
+        AnimatorClipInfo[] clipInfos = m_animator.GetCurrentAnimatorClipInfo(0);
+        //만약 재생중인 애니메이션이 있다면 그 길이를 가져옴. 없다면 0.5초 반환
+        float clipLength = clipInfos.Length > 0 ? clipInfos[0].clip.length : 0.5f; // fallback 0.5초
+        yield return new WaitForSeconds(clipLength / m_stats.attackSpeedMultiplier);
+
+        m_animator.speed = 1.0f;
     }
 
-    // 애니메이션 이벤트에서 호출할 함수
-    public void StartAttack()
+    //공격 애니메이션 용 이벤트
+    public void EnableWeaponColliderByIndex(int index)
     {
-        weapon.SetColliderSize(attackColliderSize);
+        if (index >= 0 && index < weaponColliders.Count)
+            weaponColliders[index].EnableCollider();
     }
 
-    public void EndAttack()
+    public void DisableWeaponColliderByIndex(int index)
     {
-        weapon.ResetColliderSize();
+        if (index >= 0 && index < weaponColliders.Count)
+            weaponColliders[index].DisableCollider();
     }
 }

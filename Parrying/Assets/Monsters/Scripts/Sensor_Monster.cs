@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sensor_Hero : MonoBehaviour
+public class Sensor_Monster : MonoBehaviour
 {
     public float invincibleDuration = 1.0f;
     private float m_invincibleTimer = 0f;
@@ -17,9 +17,9 @@ public class Sensor_Hero : MonoBehaviour
         if (m_invincibleTimer > 0f)
             return;
 
-        // 공격 받았을 때
+        // 몬스터 애니메이터 트리거
         Animator animator = GetComponentInParent<Animator>();
-        if (animator != null && !animator.GetBool("Guard"))
+        if (animator != null)
         {
             animator.SetTrigger("Hurt");
         }
@@ -34,4 +34,3 @@ public class Sensor_Hero : MonoBehaviour
             m_invincibleTimer -= Time.deltaTime;
     }
 }
-

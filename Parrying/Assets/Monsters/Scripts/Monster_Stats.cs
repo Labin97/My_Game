@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Hero_Stats : MonoBehaviour
+public class Monster_Stats : MonoBehaviour
 {
     [Header("Base Stats")]
     public float baseAttackPower = 10f;
@@ -12,7 +12,6 @@ public class Hero_Stats : MonoBehaviour
     [Header("Runtime Stats")]
     public float currentHealth;
     
-    private float parryingMultiplier = 1f;
 
     //체력 초기화
     private void Awake()
@@ -23,17 +22,9 @@ public class Hero_Stats : MonoBehaviour
     // 공격력 계산
     public float GetCurrentAttackDamage()
     {
-        float totalDamage = baseAttackPower * damageMultiplier * parryingMultiplier;
-        parryingMultiplier = 1f;
+        float totalDamage = baseAttackPower * damageMultiplier;
         return totalDamage;
     }
-
-    // 패링 공격력 계산
-    public void ApplyParryingBonus(float bonus)
-    {
-        parryingMultiplier = bonus;
-    }
-
 
     // 공격 속도 보너스 적용
     public void ApplyAttackSpeedBonus(float speedMultiplier)
