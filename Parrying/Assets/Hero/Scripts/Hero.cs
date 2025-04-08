@@ -6,6 +6,7 @@ public class Hero : MonoBehaviour {
     private Animator            m_animator;
     private Hero_Stats          m_stats;
     private WeaponCollider      m_weaponCollider;
+    private Sensor_Hero         m_sensorHero;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
 
@@ -15,6 +16,7 @@ public class Hero : MonoBehaviour {
         m_animator = GetComponent<Animator>();
         m_stats = GetComponent<Hero_Stats>();
         m_weaponCollider = GetComponentInChildren<WeaponCollider>();
+        m_sensorHero = GetComponentInChildren<Sensor_Hero>();
     }
 	
 	// Update is called once per frame
@@ -103,4 +105,25 @@ public class Hero : MonoBehaviour {
         m_weaponCollider.DisableCollider();
     }
 
+    //퍼펙트 가드
+    public void StartPerfectGuard()
+    {
+        m_sensorHero.StartPerfectGuard();
+    }
+
+    public void EndPerfectGuard()
+    {
+        m_sensorHero.EndPerfectGuard();
+    }
+
+    //패링
+    public void StartParrying()
+    {
+        m_sensorHero.StartParrying();
+    }
+
+    public void EndParrying()
+    {
+        m_sensorHero.EndParrying();
+    }
 }

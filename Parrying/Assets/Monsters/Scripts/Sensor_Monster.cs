@@ -3,10 +3,11 @@ using System.Collections;
 
 public class Sensor_Monster : MonoBehaviour
 {
-    public float invincibleDuration = 1.0f;
+    private float invincibleDuration = 0.1f;
     private float m_invincibleTimer = 0f;
-    private Animator            m_animator;
-    private Collider2D          m_sensorCollider;
+    private Animator               m_animator;
+    private Collider2D             m_sensorCollider;
+    private Monster_Stats          m_stats;
 
     private void OnEnable()
     {
@@ -19,14 +20,43 @@ public class Sensor_Monster : MonoBehaviour
         m_animator = GetComponentInParent<Animator>();
     }
 
+    private void Start()
+    {
+        m_stats = GetComponentInParent<Monster_Stats>();
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        // 무적 시간 안이면 무시
-        if (m_invincibleTimer > 0f)
+        if (m_invincibleTimer > 0f || m_animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
             return;
 
-        // 몬스터 애니메이터 트리거
-        m_animator.SetTrigger("Hurt");
+            // 몬스터 애니메이터 트리거
+            m_animator.SetTrigger("Hurt");
+
+            // Hero 공격력 가져오기
+            Hero_Stats HeroStats = other.GetComponentInParent<Hero_Stats>();
+            float damage = 0f;
+
+            if (HeroStats != null)
+            {
+                damage = HeroStats.GetCurrentAttackDamage();
+            }
+
+            // 체력 감소
+            if (m_stats != null)
+            {
+                m_stats.TakeDamage(damage);
+
+                if (m_stats.currentHealth <= 0f)
+                {
+                    Debug.Log("Monster is dead.");
+                    m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
+                }
+                else
+                {
+                    Debug.Log("Monster current health: " + m_stats.currentHealth);
+                }
+            }
 
         // 무적 타이머 시작
         m_invincibleTimer = invincibleDuration;
