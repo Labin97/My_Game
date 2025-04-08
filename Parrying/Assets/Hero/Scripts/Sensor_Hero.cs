@@ -5,10 +5,16 @@ public class Sensor_Hero : MonoBehaviour
 {
     public float invincibleDuration = 1.0f;
     private float m_invincibleTimer = 0f;
+    private Animator            m_animator;
 
     private void OnEnable()
     {
         // 초기화
+    }
+
+    private void Awake()
+    {
+        m_animator = GetComponentInParent<Animator>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -18,10 +24,9 @@ public class Sensor_Hero : MonoBehaviour
             return;
 
         // 공격 받았을 때
-        Animator animator = GetComponentInParent<Animator>();
-        if (animator != null && !animator.GetBool("Guard"))
+        if (m_animator != null && !m_animator.GetBool("Guard"))
         {
-            animator.SetTrigger("Hurt");
+           m_animator.SetTrigger("Hurt");
         }
 
         // 무적 타이머 시작

@@ -7,12 +7,14 @@ public class Moster : MonoBehaviour
     private Animator m_animator;
     private Monster_Stats          m_stats;
     [SerializeField]
-    private List<WeaponCollider> weaponColliders;
+    private List<WeaponCollider> m_weaponColliders;
+    private Sensor_Monster      m_sensorMonster;
 
     void Start()
     {
         m_animator = GetComponent<Animator>();
         m_stats = GetComponent<Monster_Stats>();
+        m_sensorMonster = GetComponentInChildren<Sensor_Monster>();
     }
 
     void Update()
@@ -45,13 +47,24 @@ public class Moster : MonoBehaviour
     //공격 애니메이션 용 이벤트
     public void EnableWeaponColliderByIndex(int index)
     {
-        if (index >= 0 && index < weaponColliders.Count)
-            weaponColliders[index].EnableCollider();
+        if (index >= 0 && index < m_weaponColliders.Count)
+            m_weaponColliders[index].EnableCollider();
     }
 
     public void DisableWeaponColliderByIndex(int index)
     {
-        if (index >= 0 && index < weaponColliders.Count)
-            weaponColliders[index].DisableCollider();
+        if (index >= 0 && index < m_weaponColliders.Count)
+            m_weaponColliders[index].DisableCollider();
+    }
+
+    //공격 무적 이벤트
+    public void EnableSensorCollider()
+    {
+        m_sensorMonster.EnableCollider();
+    }
+
+    public void DisableSensorCollider()
+    {
+        m_sensorMonster.DisableCollider();
     }
 }

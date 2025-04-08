@@ -4,17 +4,17 @@ using System.Collections;
 public class Hero : MonoBehaviour {
 
     private Animator            m_animator;
-    private bool                m_combatIdle = false;
-    private bool                m_isDead = false;
     private Hero_Stats          m_stats;
     private WeaponCollider      m_weaponCollider;
+    private bool                m_combatIdle = false;
+    private bool                m_isDead = false;
 
 
     // Use this for initialization
     void Start () {
         m_animator = GetComponent<Animator>();
         m_stats = GetComponent<Hero_Stats>();
-        m_weaponCollider = transform.Find("WeaponCollider").GetComponent<WeaponCollider>();
+        m_weaponCollider = GetComponentInChildren<WeaponCollider>();
     }
 	
 	// Update is called once per frame

@@ -616,11 +616,23 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8837074728392326892, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
+      propertyPath: m_weaponColliders.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8837074728392326892, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: weaponColliders.Array.data[0]
       value: 
       objectReference: {fileID: 1557337856}
     - target: {fileID: 8837074728392326892, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: weaponColliders.Array.data[1]
+      value: 
+      objectReference: {fileID: 318067980}
+    - target: {fileID: 8837074728392326892, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
+      propertyPath: m_weaponColliders.Array.data[0]
+      value: 
+      objectReference: {fileID: 1557337856}
+    - target: {fileID: 8837074728392326892, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
+      propertyPath: m_weaponColliders.Array.data[1]
       value: 
       objectReference: {fileID: 318067980}
     m_RemovedComponents: []
