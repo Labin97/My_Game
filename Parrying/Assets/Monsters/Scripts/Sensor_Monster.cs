@@ -8,6 +8,7 @@ public class Sensor_Monster : MonoBehaviour
     private Animator               m_animator;
     private Collider2D             m_sensorCollider;
     private Monster_Stats          m_stats;
+    private Monster                m_monster;
 
     private void OnEnable()
     {
@@ -23,58 +24,53 @@ public class Sensor_Monster : MonoBehaviour
     private void Start()
     {
         m_stats = GetComponentInParent<Monster_Stats>();
+        m_monster = GetComponentInParent<Monster>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (m_invincibleTimer > 0f || m_animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
+        // 무적 시간 안일 때 무시
+        if (m_invincibleTimer > 0f)
             return;
 
+        // 히어로 애니메이터 가져오기
         Animator otherAnimator = other.GetComponentInParent<Animator>();
-        string myCurrentClipName = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
-
         // Hero 공격력 가져오기
         Hero_Stats HeroStats = other.GetComponentInParent<Hero_Stats>();
-        float damage = 0f;
+        float damage = HeroStats.GetCurrentAttackDamage();
 
-        if (HeroStats != null)
-        {
-            damage = HeroStats.GetCurrentAttackDamage();
-        }
+        bool isParried = otherAnimator != null && otherAnimator.GetBool("PerfectParrying");
+        bool isAttacking = m_monster.IsAttacking; // 몬스터가 공격 중인지 여부
 
-        // 큰 몬스터는 공격하다 패링 맞았을 때만 경직
+        // 경직 여부 판단
+        bool applyStun = true;
+
         if (m_stats.BigMonster)
         {
-            if (otherAnimator != null && otherAnimator.GetBool("PerfectParrying"))
-            {
-                Debug.Log("Parrying by " + other.transform.parent.name);
-
-                if (myCurrentClipName.Contains("Attack"))
-                    Hurt(damage, false); // 몬스터 체력 감소
-            }
-            else
-                Hurt(damage, true); // 몬스터 체력 감소
-        }
-        else
-        {
-            Hurt(damage, false); // 몬스터 체력 감소
+            // 큰 몬스터는 패링이면서 공격 중일 때만 경직
+            applyStun = isParried && isAttacking;
         }
 
+        Hurt(damage, applyStun);
 
-        // 죽음
         if (m_stats.currentHealth <= 0f)
         {
-            m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
-        }
-    }
+            m_animator.SetBool("Death", true);
+            m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
 
-    private void Hurt(float damage, bool BigMonster)
+            // 시간이 지나면 오브젝트 삭제!! (2초로 생각했는데 이후 변경 가능)
+            Destroy(transform.root.gameObject, 2f);
+        }   
+    }  
+
+    private void Hurt(float damage, bool applyStun)
     {
-        if (!BigMonster)
+        if (applyStun)
             m_animator.SetTrigger("Hurt");
-        m_animator.SetBool("PowerAttack", false); // 파워 어택 해제
-        m_stats.TakeDamage(damage); // 몬스터 체력 감소
-        m_invincibleTimer = invincibleDuration; // 무적 타이머 시작
+
+        m_animator.SetBool("PowerAttack", false);
+        m_stats.TakeDamage(damage);
+        m_invincibleTimer = invincibleDuration;
 
         Debug.Log("Monster current health: " + m_stats.currentHealth);
     }
@@ -82,7 +78,7 @@ public class Sensor_Monster : MonoBehaviour
     void Update()
     {
         if (m_invincibleTimer > 0f)
-            m_invincibleTimer -= Time.deltaTime;
+           m_invincibleTimer = Mathf.Max(0f, m_invincibleTimer - Time.deltaTime);
     }
 
     // 애니메이션 이벤트에서 호출할 메서드

@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Moster : MonoBehaviour
+public class Monster : MonoBehaviour
 {
     private Animator m_animator;
     private Monster_Stats          m_stats;
     private Sensor_Monster      m_sensorMonster;
+    private bool isAttacking = false; 
+    public bool IsAttacking => isAttacking; // 공격 중인지 여부를 외부에서 접근할 수 있도록 함
+    private float   attackCooldown = 0f; // 공격 쿨타임
+    public float minCooldown = 4f;
+    public float maxCooldown = 6f;
     [SerializeField]
     private List<WeaponCollider> m_weaponColliders;
     [SerializeField]
@@ -21,18 +26,19 @@ public class Moster : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        attackCooldown -= Time.deltaTime;
+
+        if (IsEnemyInRange() && !IsAttacking && attackCooldown <= 0f)
         {
-            StartCoroutine(PlayAttackAnimation(1));
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            StartCoroutine(PlayAttackAnimation(2));
+            int attackIndex = Random.Range(0, m_weaponColliders.Count);
+            StartCoroutine(PlayAttackAnimation(attackIndex + 1));
+            attackCooldown = Random.Range(minCooldown, maxCooldown); // 다음 공격까지 대기 시간
         }
     }
 
     IEnumerator PlayAttackAnimation(float attackType)
     {
+        isAttacking = true; // 공격 시작
         m_animator.speed = m_stats.attackSpeedMultiplier;
         m_animator.SetTrigger("Attack" + attackType);
 
@@ -42,9 +48,17 @@ public class Moster : MonoBehaviour
         float clipLength = clipInfos.Length > 0 ? clipInfos[0].clip.length : 0.5f; // fallback 0.5초
         yield return new WaitForSeconds(clipLength / m_stats.attackSpeedMultiplier);
 
+        isAttacking = false; // 공격 종료
         m_animator.speed = 1.0f;
     }
 
+    // 적이 범위 내에 있는지 확인하는 메서드
+    private bool IsEnemyInRange()
+    {
+        // 적의 위치를 확인하는 로직을 구현해야 합니다.
+        // 예시로 항상 true를 반환하도록 설정했습니다.
+        return true;
+    }
 
     // 경고 아이콘 표시
     public void ShowWarning()
@@ -94,4 +108,5 @@ public class Moster : MonoBehaviour
     {
         m_sensorMonster.DisableCollider();
     }
+
 }

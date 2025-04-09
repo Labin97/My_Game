@@ -105,6 +105,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.41666666
+    functionName: EnableSensorCollider
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.5
     functionName: EnableWeaponColliderByIndex
     data: 
@@ -114,13 +121,6 @@ AnimationClip:
     messageOptions: 0
   - time: 0.5833333
     functionName: EndPowerAttack
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.5833333
-    functionName: EnableSensorCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
