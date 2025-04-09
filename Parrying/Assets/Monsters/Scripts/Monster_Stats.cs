@@ -8,6 +8,7 @@ public class Monster_Stats : MonoBehaviour
     public float baseHealth = 100f;
     public float damageMultiplier = 1f;
     public float attackSpeedMultiplier = 1f;
+    public bool  BigMonster = false;
 
     [Header("Runtime Stats")]
     public float currentHealth;

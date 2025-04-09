@@ -30,36 +30,53 @@ public class Sensor_Monster : MonoBehaviour
         if (m_invincibleTimer > 0f || m_animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
             return;
 
-            // 몬스터 애니메이터 트리거
+        Animator otherAnimator = other.GetComponentInParent<Animator>();
+        string myCurrentClipName = m_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+
+        // Hero 공격력 가져오기
+        Hero_Stats HeroStats = other.GetComponentInParent<Hero_Stats>();
+        float damage = 0f;
+
+        if (HeroStats != null)
+        {
+            damage = HeroStats.GetCurrentAttackDamage();
+        }
+
+        // 큰 몬스터는 공격하다 패링 맞았을 때만 경직
+        if (m_stats.BigMonster)
+        {
+            if (otherAnimator != null && otherAnimator.GetBool("PerfectParrying"))
+            {
+                Debug.Log("Parrying by " + other.transform.parent.name);
+
+                if (myCurrentClipName.Contains("Attack"))
+                    Hurt(damage, false); // 몬스터 체력 감소
+            }
+            else
+                Hurt(damage, true); // 몬스터 체력 감소
+        }
+        else
+        {
+            Hurt(damage, false); // 몬스터 체력 감소
+        }
+
+
+        // 죽음
+        if (m_stats.currentHealth <= 0f)
+        {
+            m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
+        }
+    }
+
+    private void Hurt(float damage, bool BigMonster)
+    {
+        if (!BigMonster)
             m_animator.SetTrigger("Hurt");
+        m_animator.SetBool("PowerAttack", false); // 파워 어택 해제
+        m_stats.TakeDamage(damage); // 몬스터 체력 감소
+        m_invincibleTimer = invincibleDuration; // 무적 타이머 시작
 
-            // Hero 공격력 가져오기
-            Hero_Stats HeroStats = other.GetComponentInParent<Hero_Stats>();
-            float damage = 0f;
-
-            if (HeroStats != null)
-            {
-                damage = HeroStats.GetCurrentAttackDamage();
-            }
-
-            // 체력 감소
-            if (m_stats != null)
-            {
-                m_stats.TakeDamage(damage);
-
-                if (m_stats.currentHealth <= 0f)
-                {
-                    Debug.Log("Monster is dead.");
-                    m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
-                }
-                else
-                {
-                    Debug.Log("Monster current health: " + m_stats.currentHealth);
-                }
-            }
-
-        // 무적 타이머 시작
-        m_invincibleTimer = invincibleDuration;
+        Debug.Log("Monster current health: " + m_stats.currentHealth);
     }
 
     void Update()
