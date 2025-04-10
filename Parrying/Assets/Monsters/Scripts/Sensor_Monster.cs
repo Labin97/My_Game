@@ -60,18 +60,20 @@ public class Sensor_Monster : MonoBehaviour
             m_animator.SetBool("Death", true);
             m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
 
-            // 시간이 지나면 오브젝트 삭제!! (2초로 생각했는데 이후 변경 가능)
-            Destroy(transform.root.gameObject, 2f);
+            Destroy(transform.root.gameObject, m_stats.DeathTime);
         }   
     }  
 
     private void Hurt(float damage, bool applyStun, Collider2D other)
     {
         if (applyStun)
+        {
             m_animator.SetTrigger("Hurt");
+            CameraShake.Instance.Shake(0.15f, 0.05f); // 카메라 흔들림 효과
+        }
 
-        m_animator.SetBool("PowerAttack", false);
         m_stats.TakeDamage(damage);
+        m_animator.SetBool("PowerAttack", false);  //파워 어택 초기화
         m_invincibleTimer = invincibleDuration;
 
         if (bloodEffectPrefab != null)

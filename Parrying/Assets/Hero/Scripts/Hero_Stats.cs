@@ -8,6 +8,8 @@ public class Hero_Stats : MonoBehaviour
     public float baseHealth = 100f;
     public float damageMultiplier = 1f;
     public float attackSpeedMultiplier = 1f;
+    public float minParryingBonus = 1.5f;
+    public float maxParryingBonus = 2.0f;
 
     [Header("Runtime Stats")]
     public float currentHealth;

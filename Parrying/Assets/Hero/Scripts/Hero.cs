@@ -9,6 +9,9 @@ public class Hero : MonoBehaviour {
     private Sensor_Hero         m_sensorHero;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
+    public bool isGuarding { get; private set; } = false;
+    public bool isParrying { get; private set; } = false;
+    public bool isPerfectParrying { get; private set; } = false;
 
 
 
@@ -25,13 +28,10 @@ public class Hero : MonoBehaviour {
         // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
 
-        AnimatorStateInfo stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
-        bool CanMove = !stateInfo.IsName("Attack") && !stateInfo.IsName("Hurt") &&
-                        !stateInfo.IsName("Death") && !stateInfo.IsName("Recover") && !stateInfo.IsName("Parrying")
-                        && !stateInfo.IsName("Parrying1") && !stateInfo.IsName("Parrying2") && !stateInfo.IsName("Parrying3");
+        bool canMove = CanMove();
 
         // Swap direction
-        if (CanMove)
+        if (canMove)
         {
             if (inputX > 0)
                 transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
@@ -42,10 +42,18 @@ public class Hero : MonoBehaviour {
 
 
         //Guard
-        bool isGuarding = Input.GetMouseButton(1);
-        m_animator.SetBool("Guard", isGuarding);
+        if (canMove)
+        {
+            isGuarding = Input.GetMouseButton(1);
+            m_animator.SetBool("Guard", isGuarding);
+        }
+        else
+        {
+            isGuarding = false;
+            m_animator.SetBool("Guard", false);
+        }
 
-        if (!m_animator.GetBool("Guard"))
+        if (!isGuarding)
         {
             //Attack
             if(Input.GetMouseButtonDown(0)) {
@@ -104,6 +112,22 @@ public class Hero : MonoBehaviour {
         m_animator.speed = 1.0f;
     }
 
+    private bool CanMove()
+    {
+        AnimatorStateInfo stateInfo = m_animator.GetCurrentAnimatorStateInfo(0);
+        return !stateInfo.IsName("Attack") && !stateInfo.IsName("Hurt") &&
+            !stateInfo.IsName("Death") && !stateInfo.IsName("Recover") &&
+            !stateInfo.IsName("Parrying") && !stateInfo.IsName("Parrying1") &&
+            !stateInfo.IsName("Parrying2") && !stateInfo.IsName("Parrying3");
+    }
+
+    public bool IsFacingAttacker(Transform attacker)
+    {
+        float heroFacing = -transform.localScale.x;
+        float directionToAttacker = Mathf.Sign(attacker.position.x - transform.position.x);
+        return (heroFacing * directionToAttacker) > 0f;
+    }
+
 
     //공격 애니메이션 용 이벤트
     public void EnableWeaponCollider()
@@ -119,28 +143,38 @@ public class Hero : MonoBehaviour {
     //패링
     private void StartParrying()
     {
+        isParrying = true;
         m_animator.SetBool("IsParrying", true);
-        SetParryLevel(0);
     }
 
     private void EndParrying()
     {
+        isParrying = false;
         m_animator.SetBool("IsParrying", false);
     }
 
     private void StartPerfectParrying()
     {
+        isPerfectParrying = true;
         m_animator.SetBool("PerfectParrying", true);
     }
 
     private void EndPerfectParrying()
     {
+        isPerfectParrying = false;
         m_animator.SetBool("PerfectParrying", false);
     }
 
     private void SetParryLevel(int level)
     {
         m_animator.SetInteger("ParryLevel", level);
+
+        if (level == 1)
+            m_stats.ApplyParryingBonus(0.7f);
+        else if (level == 2)
+            m_stats.ApplyParryingBonus(m_stats.minParryingBonus);
+        else if (level == 3)
+            m_stats.ApplyParryingBonus(m_stats.maxParryingBonus);
     }
 
     //퍼펙트 가드

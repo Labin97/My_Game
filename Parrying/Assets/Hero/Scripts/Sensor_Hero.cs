@@ -8,13 +8,10 @@ public class Sensor_Hero : MonoBehaviour
     private Animator            m_animator;
     private Hero_Stats          m_stats;
     private bool                isPerfectGuard = false;
+    private Hero                m_hero; 
     [SerializeField]
-    private GameObject         bloodEffectPrefab; // 피 이펙트 프리팹
+    private GameObject          bloodEffectPrefab; // 피 이펙트 프리팹
 
-    private void OnEnable()
-    {
-        // 초기화
-    }
 
     private void Awake()
     {
@@ -23,6 +20,7 @@ public class Sensor_Hero : MonoBehaviour
 
     private void Start()
     {
+        m_hero = GetComponentInParent<Hero>();
         m_stats = GetComponentInParent<Hero_Stats>();
     }
 
@@ -42,19 +40,22 @@ public class Sensor_Hero : MonoBehaviour
         }
 
         // 몬스터의 공격 방향 계산
-        float MonsterX = other.transform.position.x;
-        float HeroFacing = -m_animator.transform.localScale.x;
-        float attackDirection = Mathf.Sign(MonsterX - transform.position.x);
-        bool isFacing = (HeroFacing * attackDirection) > 0f;
+        bool isFacing = m_hero.IsFacingAttacker(other.transform);
 
         //패링 방향이나 가드 방향의 실패
-        if (m_animator.GetBool("Guard") && !isFacing || m_animator.GetBool("IsParrying") && !isFacing)
+        if ((m_hero.isGuarding && !isFacing) || (m_hero.isParrying && !isFacing))
         {
             Hurt(damage, other); // 히어로 체력 감소
         }
 
+        // 패링 성공
+        else if (m_hero.isPerfectParrying)
+        {
+            Debug.Log("Parrying " + other.transform.parent.name);
+        }
+
         // 가드 성공
-        else if (m_animator.GetBool("Guard"))
+        else if (m_hero.isGuarding)
         {
             if (isFacing)
             {
@@ -62,32 +63,19 @@ public class Sensor_Hero : MonoBehaviour
                 {
                     //퍼펙트 가드 성공
                     m_stats.TakeDamage(0f); // 완벽 방어 시 데미지 100% 감소
+                    CameraShake.Instance.Shake(0.15f, 0.05f); // 카메라 흔들림 효과
                 }
                 else 
                 {
                     Animator otherAnimator = other.GetComponentInParent<Animator>();
-                    if (otherAnimator.GetBool("PowerAttack"))
+                    if (otherAnimator != null && otherAnimator.GetBool("PowerAttack"))
                         Hurt(damage, other);
                     else
+                    {
                         m_stats.TakeDamage(damage * 0.2f); // 방어 시 데미지 80% 감소
+                        CameraShake.Instance.Shake(0.15f, 0.05f); // 카메라 흔들림 효과
+                    }
                 }
-            }
-        }
-
-        // 패링 성공
-        else if (m_animator.GetBool("PerfectParrying"))
-        {
-            Debug.Log("Parrying " + other.transform.parent.name);
-
-            if (m_animator.GetInteger("ParryLevel") == 3)
-            {
-                // 완벽한 패링
-                m_stats.ApplyParryingBonus(2.0f); 
-            }
-            else if (m_animator.GetInteger("ParryLevel") == 2)
-            {
-                // 중간 패링
-                m_stats.ApplyParryingBonus(1.5f);
             }
         }
 
@@ -95,29 +83,18 @@ public class Sensor_Hero : MonoBehaviour
         else
             Hurt(damage, other); // 히어로 체력 감소
 
-        // 죽음
-        if (m_stats.currentHealth <= 0f)
-        {
-            Debug.Log("Hero is dead.");
-            m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
-            GetComponent<Collider2D>().enabled = false; // 히어로의 콜라이더 비활성화
-            return ;
-        }
-        else
-        {
-            Debug.Log("Hero current health: " + m_stats.currentHealth);
-        }
-
-        // 무적 타이머 시작
-        m_invincibleTimer = invincibleDuration;
-
+        
+        Debug.Log("Hero current health: " + m_stats.currentHealth);
     }
 
     // 히어로가 맞았을 때
     private void Hurt(float damage, Collider2D other)
     {
         Debug.Log("Hit by monster");
+
         m_animator.SetTrigger("Hurt");
+        CameraShake.Instance.Shake(0.15f, 0.2f); // 카메라 흔들림 효과
+
         m_stats.TakeDamage(damage); // 히어로 체력 감소
         m_invincibleTimer = invincibleDuration; // 무적 타이머 시작
         m_animator.SetInteger("ParryLevel", 0); // 패링 레벨 초기화
@@ -129,6 +106,15 @@ public class Sensor_Hero : MonoBehaviour
             Vector3 hitPosition = other.ClosestPoint(transform.position);
             GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
             Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
+        }
+
+        // 죽음
+        if (m_stats.currentHealth <= 0f)
+        {
+            Debug.Log("Hero is dead.");
+            m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
+            GetComponent<Collider2D>().enabled = false; // 히어로의 콜라이더 비활성화
+            return ;
         }
     }
 

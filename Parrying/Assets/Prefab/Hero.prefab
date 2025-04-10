@@ -138,6 +138,8 @@ MonoBehaviour:
   baseHealth: 100
   damageMultiplier: 1
   attackSpeedMultiplier: 1
+  minParryingBonus: 1.5
+  maxParryingBonus: 2
   currentHealth: 0
 --- !u!1 &1241873266373288092
 GameObject:
@@ -185,6 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4beb47d3f52622a4db6bba0f8809ce39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodEffectPrefab: {fileID: 4932473303761629094, guid: ddcadc569b736a04e89a6c6cc3c716d4, type: 3}
 --- !u!61 &7540106012034803152
 BoxCollider2D:
   m_ObjectHideFlags: 0
