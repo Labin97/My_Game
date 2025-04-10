@@ -60,8 +60,7 @@ public class Hero : MonoBehaviour {
             }
             if (Input.GetKeyUp("q")) 
             {
-                Debug.Log("Parry Level: " + m_animator.GetInteger("ParryLevel"));
-                EndParrying();
+                StartCoroutine(EndParrying());
             }
         }
 
@@ -124,8 +123,12 @@ public class Hero : MonoBehaviour {
         SetParryLevel(0);
     }
 
-    private void EndParrying()
+    IEnumerator EndParrying()
     {
+        while (m_animator.GetInteger("ParryLevel") < 1)
+        {
+            yield return null;
+        }
         m_animator.SetBool("IsParrying", false);
     }
 

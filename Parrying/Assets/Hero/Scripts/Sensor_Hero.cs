@@ -8,6 +8,8 @@ public class Sensor_Hero : MonoBehaviour
     private Animator            m_animator;
     private Hero_Stats          m_stats;
     private bool                isPerfectGuard = false;
+    [SerializeField]
+    private GameObject         bloodEffectPrefab; // 피 이펙트 프리팹
 
     private void OnEnable()
     {
@@ -48,10 +50,7 @@ public class Sensor_Hero : MonoBehaviour
         //패링 방향이나 가드 방향의 실패
         if (m_animator.GetBool("Guard") && !isFacing || m_animator.GetBool("IsParrying") && !isFacing)
         {
-            Debug.Log("Hit by " + other.transform.parent.name);
-
-            m_animator.SetTrigger("Hurt");
-            m_stats.TakeDamage(damage); // 히어로 체력 감소
+            Hurt(damage, other); // 히어로 체력 감소
         }
 
         // 가드 성공
@@ -68,7 +67,7 @@ public class Sensor_Hero : MonoBehaviour
                 {
                     Animator otherAnimator = other.GetComponentInParent<Animator>();
                     if (otherAnimator.GetBool("PowerAttack"))
-                        Hurt(damage);
+                        Hurt(damage, other);
                     else
                         m_stats.TakeDamage(damage * 0.2f); // 방어 시 데미지 80% 감소
                 }
@@ -94,7 +93,7 @@ public class Sensor_Hero : MonoBehaviour
 
         // 맞음
         else
-            Hurt(damage); // 히어로 체력 감소
+            Hurt(damage, other); // 히어로 체력 감소
 
         // 죽음
         if (m_stats.currentHealth <= 0f)
@@ -115,13 +114,21 @@ public class Sensor_Hero : MonoBehaviour
     }
 
     // 히어로가 맞았을 때
-    private void Hurt(float damage)
+    private void Hurt(float damage, Collider2D other)
     {
         Debug.Log("Hit by monster");
         m_animator.SetTrigger("Hurt");
         m_stats.TakeDamage(damage); // 히어로 체력 감소
         m_invincibleTimer = invincibleDuration; // 무적 타이머 시작
         m_stats.ApplyParryingBonus(1.0f); // 패링 보너스 초기화
+
+        if (bloodEffectPrefab != null)
+        {
+            // 피 이펙트 생성
+            Vector3 hitPosition = other.ClosestPoint(transform.position);
+            GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
+            Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
+        }
     }
 
     void Update()

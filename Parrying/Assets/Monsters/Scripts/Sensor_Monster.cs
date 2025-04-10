@@ -9,6 +9,8 @@ public class Sensor_Monster : MonoBehaviour
     private Collider2D             m_sensorCollider;
     private Monster_Stats          m_stats;
     private Monster                m_monster;
+    [SerializeField]
+    private GameObject             bloodEffectPrefab; // 피 이펙트 프리팹
 
     private void OnEnable()
     {
@@ -51,7 +53,7 @@ public class Sensor_Monster : MonoBehaviour
             applyStun = isParried && isAttacking;
         }
 
-        Hurt(damage, applyStun);
+        Hurt(damage, applyStun, other);
 
         if (m_stats.currentHealth <= 0f)
         {
@@ -63,7 +65,7 @@ public class Sensor_Monster : MonoBehaviour
         }   
     }  
 
-    private void Hurt(float damage, bool applyStun)
+    private void Hurt(float damage, bool applyStun, Collider2D other)
     {
         if (applyStun)
             m_animator.SetTrigger("Hurt");
@@ -71,6 +73,14 @@ public class Sensor_Monster : MonoBehaviour
         m_animator.SetBool("PowerAttack", false);
         m_stats.TakeDamage(damage);
         m_invincibleTimer = invincibleDuration;
+
+        if (bloodEffectPrefab != null)
+        {
+            // 피 이펙트 생성
+            Vector3 hitPosition = other.ClosestPoint(transform.position);
+            GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
+            Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
+        }
 
         Debug.Log("Monster current health: " + m_stats.currentHealth);
     }
