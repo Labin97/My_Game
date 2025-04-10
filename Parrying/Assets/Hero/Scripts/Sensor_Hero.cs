@@ -79,12 +79,12 @@ public class Sensor_Hero : MonoBehaviour
         {
             Debug.Log("Parrying " + other.transform.parent.name);
 
-            if (m_animator.GetInteger("ParryLevel") == 2)
+            if (m_animator.GetInteger("ParryLevel") == 3)
             {
                 // 완벽한 패링
                 m_stats.ApplyParryingBonus(2.0f); 
             }
-            else if (m_animator.GetInteger("ParryLevel") == 1)
+            else if (m_animator.GetInteger("ParryLevel") == 2)
             {
                 // 중간 패링
                 m_stats.ApplyParryingBonus(1.5f);
@@ -120,6 +120,7 @@ public class Sensor_Hero : MonoBehaviour
         m_animator.SetTrigger("Hurt");
         m_stats.TakeDamage(damage); // 히어로 체력 감소
         m_invincibleTimer = invincibleDuration; // 무적 타이머 시작
+        m_animator.SetInteger("ParryLevel", 0); // 패링 레벨 초기화
         m_stats.ApplyParryingBonus(1.0f); // 패링 보너스 초기화
 
         if (bloodEffectPrefab != null)

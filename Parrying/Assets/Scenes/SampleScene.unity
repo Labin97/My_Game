@@ -485,9 +485,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2118027783844561724, guid: 794354692958c7541a1c80de2e9ee514, type: 3}
+      propertyPath: bloodEffectPrefab
+      value: 
+      objectReference: {fileID: 4932473303761629094, guid: ddcadc569b736a04e89a6c6cc3c716d4, type: 3}
     - target: {fileID: 7268259379318020917, guid: 794354692958c7541a1c80de2e9ee514, type: 3}
       propertyPath: baseAttackPower
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -514,6 +518,10 @@ PrefabInstance:
       propertyPath: baseAttackPower
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3365639339356243016, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
+      propertyPath: bloodEffectPrefab
+      value: 
+      objectReference: {fileID: 4932473303761629094, guid: ddcadc569b736a04e89a6c6cc3c716d4, type: 3}
     - target: {fileID: 3509715850070069179, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.012

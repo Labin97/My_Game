@@ -22,19 +22,19 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 1380958447, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
-    - time: 0.083333336
-      value: {fileID: -643891055, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
     - time: 0.16666667
-      value: {fileID: 1057659064, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
-    - time: 0.25
-      value: {fileID: 2008182956, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
+      value: {fileID: -643891055, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
     - time: 0.33333334
-      value: {fileID: 1967160795, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
+      value: {fileID: 1057659064, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
     - time: 0.41666666
-      value: {fileID: 921031933, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
+      value: {fileID: 2008182956, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
     - time: 0.5
-      value: {fileID: -225317105, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
+      value: {fileID: 1967160795, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
     - time: 0.5833333
+      value: {fileID: 921031933, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
+    - time: 0.6666667
+      value: {fileID: -225317105, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
+    - time: 0.75
       value: {fileID: -2044024193, guid: d217f14e3a297fa419aad3306d85ce72, type: 3}
     attribute: m_Sprite
     path: 
@@ -71,7 +71,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6666666
+    m_StopTime: 0.8333333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -91,14 +91,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.33333334
+  - time: 0.5
     functionName: EnableWeaponCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
+  - time: 0.6666667
     functionName: DisableWeaponCollider
     data: 
     objectReferenceParameter: {fileID: 0}
