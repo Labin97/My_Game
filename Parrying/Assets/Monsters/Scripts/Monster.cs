@@ -55,8 +55,6 @@ public class Monster : MonoBehaviour
     // 적이 범위 내에 있는지 확인하는 메서드
     private bool IsEnemyInRange()
     {
-        // 적의 위치를 확인하는 로직을 구현해야 합니다.
-        // 예시로 항상 true를 반환하도록 설정했습니다.
         return true;
     }
 
