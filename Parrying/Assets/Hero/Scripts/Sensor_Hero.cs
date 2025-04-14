@@ -7,7 +7,6 @@ public class Sensor_Hero : MonoBehaviour
     private float m_invincibleTimer = 0f;
     private Animator            m_animator;
     private Hero_Stats          m_stats;
-    private bool                isPerfectGuard = false;
     private Hero                m_hero; 
     [SerializeField]
     private GameObject          bloodEffectPrefab; // 피 이펙트 프리팹
@@ -67,7 +66,7 @@ public class Sensor_Hero : MonoBehaviour
         {
             if (isFacing)
             {
-                if (isPerfectGuard)
+                if (m_hero.isPerfectGuard)
                 {
                     //퍼펙트 가드 성공
                     m_stats.TakeDamage(0f); // 완벽 방어 시 데미지 100% 감소
@@ -148,17 +147,6 @@ public class Sensor_Hero : MonoBehaviour
     {
         if (m_invincibleTimer > 0f)
             m_invincibleTimer = Mathf.Max(0f, m_invincibleTimer - Time.deltaTime);
-    }
-
-    // 애니메이션 이벤트에서 호출할 메서드
-    public void StartPerfectGuard()
-    {
-        isPerfectGuard = true;
-    }
-
-    public void EndPerfectGuard()
-    {
-        isPerfectGuard = false;
     }
 
 }

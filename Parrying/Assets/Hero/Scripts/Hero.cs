@@ -2,25 +2,26 @@
 using System.Collections;
 
 public class Hero : MonoBehaviour {
+    private WeaponCollider      m_weaponCollider;
+    public WeaponCollider weaponCollider => m_weaponCollider;
 
     private Animator            m_animator;
     private Hero_Stats          m_stats;
-    private WeaponCollider      m_weaponCollider;
     private Sensor_Hero         m_sensorHero;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
     public bool isGuarding { get; private set; } = false;
     public bool isParrying { get; private set; } = false;
     public bool isPerfectParrying { get; private set; } = false;
-
+    public bool isPerfectGuard { get; private set; } = false;
 
 
     // Use this for initialization
     void Start () {
-        m_animator = GetComponent<Animator>();
         m_stats = GetComponent<Hero_Stats>();
         m_weaponCollider = GetComponentInChildren<WeaponCollider>();
         m_sensorHero = GetComponentInChildren<Sensor_Hero>();
+        m_animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -64,11 +65,13 @@ public class Hero : MonoBehaviour {
             //Parrying
             if(Input.GetKeyDown("q")) 
             {
-                StartParrying();
+                isParrying = true;
+                m_animator.SetBool("IsParrying", true);
             }
             if (Input.GetKeyUp("q")) 
             {
-                EndParrying();
+                isParrying = false;
+                m_animator.SetBool("IsParrying", false);
             }
         }
 
@@ -128,64 +131,22 @@ public class Hero : MonoBehaviour {
         return (heroFacing * directionToAttacker) > 0f;
     }
 
-
-    //공격 애니메이션 용 이벤트
-    public void EnableWeaponCollider()
+    public void SetIsParrying(bool value)
     {
-        m_weaponCollider.EnableCollider();
+        isParrying = value;
+    }
+    public void SetIsPerfectParrying(bool value)
+    {
+        isPerfectParrying = value;
     }
 
-    public void DisableWeaponCollider()
+    public void SetIsGuarding(bool value)
     {
-        m_weaponCollider.DisableCollider();
+        isGuarding = value;
     }
 
-    //패링
-    private void StartParrying()
+    public void SetIsPerfectGuard(bool value)
     {
-        isParrying = true;
-        m_animator.SetBool("IsParrying", true);
+        isPerfectGuard = value;
     }
-
-    private void EndParrying()
-    {
-        isParrying = false;
-        m_animator.SetBool("IsParrying", false);
-    }
-
-    private void StartPerfectParrying()
-    {
-        isPerfectParrying = true;
-        m_animator.SetBool("PerfectParrying", true);
-    }
-
-    private void EndPerfectParrying()
-    {
-        isPerfectParrying = false;
-        m_animator.SetBool("PerfectParrying", false);
-    }
-
-    private void SetParryLevel(int level)
-    {
-        m_animator.SetInteger("ParryLevel", level);
-
-        if (level == 1)
-            m_stats.ApplyParryingBonus(0.7f);
-        else if (level == 2)
-            m_stats.ApplyParryingBonus(m_stats.minParryingBonus);
-        else if (level == 3)
-            m_stats.ApplyParryingBonus(m_stats.maxParryingBonus);
-    }
-
-    //퍼펙트 가드
-    public void StartPerfectGuard()
-    {
-        m_sensorHero.StartPerfectGuard();
-    }
-
-    public void EndPerfectGuard()
-    {
-        m_sensorHero.EndPerfectGuard();
-    }
-
 }
