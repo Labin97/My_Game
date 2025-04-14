@@ -106,14 +106,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.33333334
-    functionName: EnableSensorCollider
+    functionName: StartSuperArmor
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.33333334
-    functionName: StartSuperArmor
+    functionName: EnableSensorCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -127,14 +127,14 @@ AnimationClip:
     intParameter: 1
     messageOptions: 0
   - time: 0.5833333
-    functionName: EndPowerAttack
+    functionName: EndSuperArmor
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5833333
-    functionName: EndSuperArmor
+    functionName: EndPowerAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
