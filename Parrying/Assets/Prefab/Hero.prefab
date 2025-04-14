@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 212259381048184306}
   - component: {fileID: 1885432900308244204}
   - component: {fileID: 7268259379318020917}
+  - component: {fileID: 7875366725351088389}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -141,6 +142,18 @@ MonoBehaviour:
   minParryingBonus: 1.5
   maxParryingBonus: 2
   currentHealth: 0
+--- !u!114 &7875366725351088389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689866831511430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f284d6d3d0df4a541abc0c315feecaa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1145525089494406456
 GameObject:
   m_ObjectHideFlags: 0
