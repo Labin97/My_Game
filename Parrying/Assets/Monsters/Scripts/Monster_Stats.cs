@@ -9,7 +9,7 @@ public class Monster_Stats : MonoBehaviour
     public float damageMultiplier = 1f;
     public float attackSpeedMultiplier = 1f;
     public float DeathTime = 2f; // 죽는 시간
-    public bool  BigMonster = false;
+    public bool  SuperArmor = false;
 
     [Header("Runtime Stats")]
     public float currentHealth;

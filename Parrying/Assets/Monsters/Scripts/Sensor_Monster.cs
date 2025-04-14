@@ -47,9 +47,9 @@ public class Sensor_Monster : MonoBehaviour
         // 경직 여부 판단
         bool applyStun = true;
 
-        if (m_stats.BigMonster)
+        if (m_stats.SuperArmor)
         {
-            // 큰 몬스터는 패링이면서 공격 중일 때만 경직
+            // 슈퍼 아머가 있는 경우 패링과 공격중에만 경직
             applyStun = isParried && isAttacking;
         }
 

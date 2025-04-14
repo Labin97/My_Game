@@ -131,8 +131,9 @@ GameObject:
   - component: {fileID: 6016134246087589764}
   - component: {fileID: 8545053087895318014}
   - component: {fileID: 8837074728392326892}
-  - component: {fileID: 2459453665193405289}
-  m_Layer: 0
+  - component: {fileID: 6800336013289851602}
+  - component: {fileID: 3828691205554673981}
+  m_Layer: 8
   m_Name: Goblin
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -243,13 +244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4e0bc9e4d4b9d48a18cc89b7a7c83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minCooldown: 4
-  maxCooldown: 6
-  m_weaponColliders:
+  weaponColliders:
   - {fileID: 3555291663410507194}
   - {fileID: 4268086544759240291}
-  warningIcon: {fileID: 5255563235539414210}
---- !u!114 &2459453665193405289
+--- !u!114 &6800336013289851602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,8 +263,25 @@ MonoBehaviour:
   baseHealth: 100
   damageMultiplier: 1
   attackSpeedMultiplier: 1
-  BigMonster: 0
+  DeathTime: 2
+  SuperArmor: 0
   currentHealth: 0
+--- !u!114 &3828691205554673981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317463775166031453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ca2bfa4726a06459b0a8eea2c28943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 8837074728392326892}
+  stats: {fileID: 6800336013289851602}
+  sensorMonster: {fileID: 3365639339356243016}
+  warningIcon: {fileID: 5255563235539414210}
 --- !u!1 &943205494422528694
 GameObject:
   m_ObjectHideFlags: 0

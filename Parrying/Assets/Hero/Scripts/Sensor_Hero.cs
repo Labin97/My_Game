@@ -3,30 +3,29 @@ using System.Collections;
 
 public class Sensor_Hero : MonoBehaviour
 {
+
+    private Hero                m_hero; 
+    private Hero_Stats          m_stats;
+    private Animator            m_animator;
+
     private float invincibleDuration = 0.1f;
     private float m_invincibleTimer = 0f;
-    private Animator            m_animator;
-    private Hero_Stats          m_stats;
-    private bool                isPerfectGuard = false;
-    private Hero                m_hero; 
-    [SerializeField]
-    private GameObject          bloodEffectPrefab; // 피 이펙트 프리팹
-    [SerializeField]
-    private GameObject          guardEffectPrefab; // 가드 이펙트 프리팹
-    [SerializeField]
-    private Transform           guardEffectPoint; // 가드 이펙트 위치
+
+    [SerializeField] private GameObject bloodEffectPrefab; // 피 이펙트 프리팹
+    [SerializeField] private GameObject guardEffectPrefab; // 가드 이펙트 프리팹
+    [SerializeField] private Transform guardEffectPoint; // 가드 이펙트 위치
     private GameObject          guardEffectInstance; // 가드 이펙트 인스턴스
 
 
     private void Awake()
     {
+        m_hero = GetComponentInParent<Hero>();
+        m_stats = GetComponentInParent<Hero_Stats>();
         m_animator = GetComponentInParent<Animator>();
     }
 
     private void Start()
     {
-        m_hero = GetComponentInParent<Hero>();
-        m_stats = GetComponentInParent<Hero_Stats>();
         guardEffectInstance = Instantiate(guardEffectPrefab, guardEffectPoint.position, guardEffectPoint.rotation, guardEffectPoint); //가드 이펙트 인스턴스 생성
     }
 
@@ -35,6 +34,8 @@ public class Sensor_Hero : MonoBehaviour
         // 무적 시간 안이거나 애니메이션이 Hurt 상태일 때 무시
         if (m_invincibleTimer > 0f || m_animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
            return;
+
+        m_invincibleTimer = invincibleDuration; // 무적 타이머 시작
 
         // 몬스터의 공격력 가져오기
         Monster_Stats monsterStats = other.GetComponentInParent<Monster_Stats>();
@@ -58,7 +59,7 @@ public class Sensor_Hero : MonoBehaviour
         // 패링 성공
         else if (m_hero.isPerfectParrying)
         {
-            Debug.Log("Parrying " + other.transform.parent.name);
+            Debug.Log("Parrying success!");
             PlayGuardEffect(); // 가드 이펙트 재생
         }
 
@@ -67,7 +68,7 @@ public class Sensor_Hero : MonoBehaviour
         {
             if (isFacing)
             {
-                if (isPerfectGuard)
+                if (m_hero.isPerfectGuard)
                 {
                     //퍼펙트 가드 성공
                     m_stats.TakeDamage(0f); // 완벽 방어 시 데미지 100% 감소
@@ -102,8 +103,6 @@ public class Sensor_Hero : MonoBehaviour
     // 히어로가 맞았을 때
     private void Hurt(float damage, Vector3 hitPosition)
     {
-        Debug.Log("Hit by monster");
-
         m_animator.SetTrigger("Hurt");
         CameraShake.Instance.Shake(0.15f, 0.2f); // 카메라 흔들림 효과
 
@@ -148,17 +147,6 @@ public class Sensor_Hero : MonoBehaviour
     {
         if (m_invincibleTimer > 0f)
             m_invincibleTimer = Mathf.Max(0f, m_invincibleTimer - Time.deltaTime);
-    }
-
-    // 애니메이션 이벤트에서 호출할 메서드
-    public void StartPerfectGuard()
-    {
-        isPerfectGuard = true;
-    }
-
-    public void EndPerfectGuard()
-    {
-        isPerfectGuard = false;
     }
 
 }

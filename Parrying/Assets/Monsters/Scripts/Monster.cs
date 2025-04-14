@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
+    public List<WeaponCollider> weaponColliders;
+
     private Animator m_animator;
-    private Monster_Stats          m_stats;
-    private Sensor_Monster      m_sensorMonster;
+    private Monster_Stats m_stats;
+
+    private float   attackCooldown = 0f; // 공격 쿨타임
     private bool isAttacking = false; 
     public bool IsAttacking => isAttacking; // 공격 중인지 여부를 외부에서 접근할 수 있도록 함
-    private float   attackCooldown = 0f; // 공격 쿨타임
-    public float minCooldown = 4f;
-    public float maxCooldown = 6f;
-    [SerializeField]
-    private List<WeaponCollider> m_weaponColliders;
-    [SerializeField]
-    private GameObject warningIcon; // 경고 아이콘 오브젝트
 
     void Start()
     {
         m_animator = GetComponent<Animator>();
         m_stats = GetComponent<Monster_Stats>();
-        m_sensorMonster = GetComponentInChildren<Sensor_Monster>();
     }
 
     void Update()
@@ -30,9 +25,9 @@ public class Monster : MonoBehaviour
 
         if (IsEnemyInRange() && !IsAttacking && attackCooldown <= 0f)
         {
-            int attackIndex = Random.Range(0, m_weaponColliders.Count);
+            int attackIndex = Random.Range(0, weaponColliders.Count);
             StartCoroutine(PlayAttackAnimation(attackIndex + 1));
-            attackCooldown = Random.Range(minCooldown, maxCooldown); // 다음 공격까지 대기 시간
+            attackCooldown = Random.Range(4.0f, 6.0f); // 다음 공격까지 대기 시간
         }
     }
 
@@ -57,54 +52,4 @@ public class Monster : MonoBehaviour
     {
         return true;
     }
-
-    // 경고 아이콘 표시
-    public void ShowWarning()
-    {
-        warningIcon.SetActive(true);
-        StartCoroutine(DisableWarningIcon());
-    }
-
-    private IEnumerator DisableWarningIcon()
-    {
-        yield return new WaitForSeconds(1f); // 1초 대기
-        warningIcon.SetActive(false);
-    }
-
-    //파워 어택 애니메이션 용 이벤트
-    public void StartPowerAttack()
-    {
-        m_animator.SetBool("PowerAttack", true);
-        ShowWarning(); // 경고 아이콘 표시
-    }
-
-    public void EndPowerAttack()
-    {
-        m_animator.SetBool("PowerAttack", false);
-    }
-
-    //공격 애니메이션 용 이벤트
-    public void EnableWeaponColliderByIndex(int index)
-    {
-        if (index >= 0 && index < m_weaponColliders.Count)
-            m_weaponColliders[index].EnableCollider();
-    }
-
-    public void DisableWeaponColliderByIndex(int index)
-    {
-        if (index >= 0 && index < m_weaponColliders.Count)
-            m_weaponColliders[index].DisableCollider();
-    }
-
-    //공격 무적 이벤트
-    public void EnableSensorCollider()
-    {
-        m_sensorMonster.EnableCollider();
-    }
-
-    public void DisableSensorCollider()
-    {
-        m_sensorMonster.DisableCollider();
-    }
-
 }
