@@ -15,8 +15,8 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-        m_animator = GetComponent<Animator>();
         m_stats = GetComponent<Monster_Stats>();
+        m_animator = GetComponent<Animator>();
     }
 
     void Update()

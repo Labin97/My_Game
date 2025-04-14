@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class HeroAnimationEvents : MonoBehaviour
 {
-    [SerializeField] private Hero hero; // Hero 스크립트 참조
-    [SerializeField] private Hero_Stats stats;
-    [SerializeField] private Sensor_Hero sensorHero;
+    private Hero m_hero; // Hero 스크립트 참조
+    private Hero_Stats m_stats; // Hero_Stats 스크립트 참조
+    private Sensor_Hero m_sensorHero; // Sensor_Hero 스크립트 참조
 
 
     private Animator m_animator;
@@ -14,42 +14,45 @@ public class HeroAnimationEvents : MonoBehaviour
     private void Awake()
     {
         m_animator = GetComponent<Animator>();
+        m_hero = GetComponent<Hero>();
+        m_stats = GetComponent<Hero_Stats>();
+        m_sensorHero = GetComponentInChildren<Sensor_Hero>();
     }
 
 
     //공격 애니메이션 용 이벤트
     public void EnableWeaponCollider()
     {
-        hero.weaponCollider.EnableCollider();
+        m_hero.weaponCollider.EnableCollider();
     }
 
     public void DisableWeaponCollider()
     {
-        hero.weaponCollider.DisableCollider();
+        m_hero.weaponCollider.DisableCollider();
     }
 
     //패링
     public void StartParrying()
     {
-        hero.SetIsParrying(true);
+        m_hero.SetIsParrying(true);
         m_animator.SetBool("IsParrying", true);
     }
 
     public void EndParrying()
     {
-        hero.SetIsParrying(false);
+        m_hero.SetIsParrying(false);
         m_animator.SetBool("IsParrying", false);
     }
 
     private void StartPerfectParrying()
     {
-        hero.SetIsPerfectParrying(true);
+        m_hero.SetIsPerfectParrying(true);
         m_animator.SetBool("PerfectParrying", true);
     }
 
     private void EndPerfectParrying()
     {
-        hero.SetIsPerfectParrying(false);
+        m_hero.SetIsPerfectParrying(false);
         m_animator.SetBool("PerfectParrying", false);
     }
 
@@ -58,21 +61,21 @@ public class HeroAnimationEvents : MonoBehaviour
         m_animator.SetInteger("ParryLevel", level);
 
         if (level == 1)
-            stats.ApplyParryingBonus(0.7f);
+            m_stats.ApplyParryingBonus(0.7f);
         else if (level == 2)
-            stats.ApplyParryingBonus(stats.minParryingBonus);
+            m_stats.ApplyParryingBonus(m_stats.minParryingBonus);
         else if (level == 3)
-            stats.ApplyParryingBonus(stats.maxParryingBonus);
+            m_stats.ApplyParryingBonus(m_stats.maxParryingBonus);
     }
 
     //퍼펙트 가드
     public void StartPerfectGuard()
     {
-        hero.SetIsPerfectGuard(true);
+        m_hero.SetIsPerfectGuard(true);
     }
 
     public void EndPerfectGuard()
     {
-        hero.SetIsPerfectGuard(false);
+        m_hero.SetIsPerfectGuard(false);
     }
 }

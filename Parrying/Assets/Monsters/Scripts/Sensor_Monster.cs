@@ -12,21 +12,16 @@ public class Sensor_Monster : MonoBehaviour
     [SerializeField]
     private GameObject             bloodEffectPrefab; // 피 이펙트 프리팹
 
-    private void OnEnable()
-    {
-        // 비활성 했다가 다시 켜는 상황에서 초기화
-    }
-
     private void Awake()
     {
         m_sensorCollider = GetComponent<Collider2D>();
         m_animator = GetComponentInParent<Animator>();
+        m_stats = GetComponentInParent<Monster_Stats>();
+        m_monster = GetComponentInParent<Monster>();
     }
 
     private void Start()
     {
-        m_stats = GetComponentInParent<Monster_Stats>();
-        m_monster = GetComponentInParent<Monster>();
     }
 
     void OnTriggerEnter2D(Collider2D other)

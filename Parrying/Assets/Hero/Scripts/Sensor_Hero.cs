@@ -20,12 +20,12 @@ public class Sensor_Hero : MonoBehaviour
     private void Awake()
     {
         m_animator = GetComponentInParent<Animator>();
+        m_hero = GetComponentInParent<Hero>();
+        m_stats = GetComponentInParent<Hero_Stats>();
     }
 
     private void Start()
     {
-        m_hero = GetComponentInParent<Hero>();
-        m_stats = GetComponentInParent<Hero_Stats>();
         guardEffectInstance = Instantiate(guardEffectPrefab, guardEffectPoint.position, guardEffectPoint.rotation, guardEffectPoint); //가드 이펙트 인스턴스 생성
     }
 
