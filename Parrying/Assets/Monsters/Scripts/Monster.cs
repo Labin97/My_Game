@@ -12,6 +12,7 @@ public class Monster : MonoBehaviour
     private float   attackCooldown = 0f; // 공격 쿨타임
     private bool isAttacking = false; 
     public bool IsAttacking => isAttacking; // 공격 중인지 여부를 외부에서 접근할 수 있도록 함
+    public float rayDistance = 0.2f; // 레이캐스트 거리
 
     void Start()
     {
@@ -21,13 +22,23 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
-        attackCooldown -= Time.deltaTime;
+        attackCooldown = Mathf.Max(0f, attackCooldown - Time.deltaTime);
 
-        if (IsEnemyInRange() && !IsAttacking && attackCooldown <= 0f)
+        if (IsSomethingInRange() == 1)
         {
-            int attackIndex = Random.Range(0, weaponColliders.Count);
-            StartCoroutine(PlayAttackAnimation(attackIndex + 1));
-            attackCooldown = Random.Range(4.0f, 6.0f); // 다음 공격까지 대기 시간
+            if (!IsAttacking && attackCooldown <= 0f)
+            {
+                int attackIndex = Random.Range(0, weaponColliders.Count);
+                StartCoroutine(PlayAttackAnimation(attackIndex + 1));
+                attackCooldown = Random.Range(4.0f, 6.0f); // 다음 공격까지 대기 시간
+            }
+        }
+        else if (IsSomethingInRange() == 2)
+        {
+        }
+        else
+        {
+
         }
     }
 
@@ -48,8 +59,30 @@ public class Monster : MonoBehaviour
     }
 
     // 적이 범위 내에 있는지 확인하는 메서드
-    private bool IsEnemyInRange()
+    private int IsSomethingInRange()
     {
-        return true;
+        Vector2 direction = transform.right * transform.localScale.x; // 바라보는 방향 (2D 좌우 반영)
+        Vector2 origin = (Vector2)transform.position;
+
+        RaycastHit2D hit = Physics2D.Raycast(origin, direction, rayDistance, LayerMask.GetMask("EnemyHitsensor", "PlayerHitsensor"));
+
+        Debug.DrawRay(origin, direction * rayDistance, Color.red);
+
+        Debug.Log("Raycast hit: " + hit.collider?.name); // 히트된 오브젝트 이름 출력
+        if (hit.collider != null)
+        {
+
+            if (hit.collider.CompareTag("PlayerHitSensor"))
+            {
+                return 1;
+            }
+            else if (hit.collider.CompareTag("EnemyHitSensor"))
+            {
+                return 2;
+            }
+        }
+
+        return 0;
     }
+
 }
