@@ -80,7 +80,6 @@ public class Monster : MonoBehaviour
     {
         // 시작 위치로 이동
         transform.position = positionPoints[(int)currentPosition].position;
-        Debug.Log("Monster Start Position: " + currentPosition + " " + transform.position);
         UpdateFacingDirection();
     }
     
@@ -169,7 +168,7 @@ public class Monster : MonoBehaviour
         Vector3 targetPos = positionPoints[(int)newPos].position;
 
         // DOTween을 사용한 이동
-        float moveSpeed = 0.5f;
+        float moveSpeed = 0.8f;
         float duration = Vector3.Distance(transform.position, targetPos) / moveSpeed;
 
         // DOMove 트윈 생성 및 실행
