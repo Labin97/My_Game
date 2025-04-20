@@ -7,6 +7,7 @@ public class Sensor_Monster : MonoBehaviour
     private float m_invincibleTimer = 0f;
     private Animator               m_animator;
     private Collider2D             m_sensorCollider;
+    public Collider2D sensorCollider => m_sensorCollider;
     private Monster_Stats          m_stats;
     private Monster                m_monster;
     [SerializeField]
@@ -32,9 +33,10 @@ public class Sensor_Monster : MonoBehaviour
 
         // 히어로 애니메이터 가져오기
         Animator otherAnimator = other.GetComponentInParent<Animator>();
+        
         // Hero 공격력 가져오기
-        Hero_Stats HeroStats = other.GetComponentInParent<Hero_Stats>();
-        float damage = HeroStats.GetCurrentAttackDamage();
+        Hero_Stats heroStats = other.GetComponentInParent<Hero_Stats>();
+        float damage = heroStats.GetCurrentAttackDamage();
 
         bool isParried = otherAnimator != null && otherAnimator.GetBool("PerfectParrying");
         bool isAttacking = m_monster.IsAttacking; // 몬스터가 공격 중인지 여부
@@ -86,16 +88,5 @@ public class Sensor_Monster : MonoBehaviour
     {
         if (m_invincibleTimer > 0f)
            m_invincibleTimer = Mathf.Max(0f, m_invincibleTimer - Time.deltaTime);
-    }
-
-    // 애니메이션 이벤트에서 호출할 메서드
-    public void EnableCollider()
-    {
-        m_sensorCollider.enabled = true;
-    }
-
-    public void DisableCollider()
-    {
-        m_sensorCollider.enabled = false;
     }
 }

@@ -46,8 +46,15 @@ public class MonsterAnimationEvents : MonoBehaviour
     }
 
     // 센서 콜라이더 활성화 및 비활성화
-    public void EnableSensorCollider() => m_sensorMonster.EnableCollider();
-    public void DisableSensorCollider() => m_sensorMonster.DisableCollider();
+    public void EnableSensorCollider()
+    {
+        m_sensorMonster.sensorCollider.enabled = true;
+    }
+
+    public void DisableSensorCollider()
+    {
+        m_sensorMonster.sensorCollider.enabled = false;
+    }
 
 
     // 파워어택 시작 시 경고 아이콘 표시
@@ -62,4 +69,5 @@ public class MonsterAnimationEvents : MonoBehaviour
         yield return new WaitForSeconds(1f);
         warningIcon.SetActive(false);
     }
+
 }

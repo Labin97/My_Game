@@ -6,38 +6,39 @@ using DG.Tweening;
 public class Monster : MonoBehaviour
 {
     // 더 많은 위치 정의 (좌우 각 5개)
-    public enum Position { 
-        Left_5 = 0, Left_4 = 1, Left_3 = 2, Left_2 = 3, Left_1 = 4, 
-        Right_1 = 5, Right_2 = 6, Right_3 = 7, Right_4 = 8, Right_5 = 9 
+    public enum Position
+    {
+        Left_5 = 0, Left_4 = 1, Left_3 = 2, Left_2 = 3, Left_1 = 4,
+        Right_1 = 5, Right_2 = 6, Right_3 = 7, Right_4 = 8, Right_5 = 9
     }
-    
+
     [Header("Position Settings")]
     public Position currentPosition;
-    
+
     // 게임 시작 시 모든 위치 포인트 참조를 저장
     private static List<Transform> positionPoints;
-    
-    private WeaponCollider      m_weaponCollider;
+
+    private WeaponCollider m_weaponCollider;
     public WeaponCollider weaponCollider => m_weaponCollider;
-    
+
     private Animator m_animator;
     private Monster_Stats m_stats;
     private float attackCooldown = 0f;
     private bool isAttacking = false;
     private bool isMoving = false;
-    
+
     public bool IsAttacking => isAttacking;
     public int AttackNum = 2;
-    
+
     // 게임 시작 시 한번만 실행되는 초기화
     private static bool initialized = false;
-    
+
     void Awake()
     {
         m_stats = GetComponent<Monster_Stats>();
         m_animator = GetComponent<Animator>();
         m_weaponCollider = GetComponentInChildren<WeaponCollider>();
-        
+
         // 첫 번째로 생성된 몬스터가 위치 포인트들을 초기화
         if (!initialized)
         {
@@ -45,13 +46,13 @@ public class Monster : MonoBehaviour
             initialized = true;
         }
     }
-    
+
     // 모든 위치 포인트를 찾아서 초기화
     private void InitializePositionPoints()
     {
         positionPoints = new List<Transform>();
         GameObject positionsParent = GameObject.Find("MonsterPositions");
-        
+
         if (positionsParent != null)
         {
             // "Left_5", "Left_4", ... 등의 이름을 가진 자식 오브젝트들을 찾아 순서대로 추가
@@ -62,7 +63,7 @@ public class Monster : MonoBehaviour
                     pointName = "Left_" + (5 - i);
                 else
                     pointName = "Right_" + (i - 4);
-                
+
                 Transform point = positionsParent.transform.Find(pointName);
                 if (point != null)
                     positionPoints.Add(point);
@@ -75,21 +76,21 @@ public class Monster : MonoBehaviour
             Debug.LogError("MonsterPositions parent object not found!");
         }
     }
-    
+
     void Start()
     {
         // 시작 위치로 이동
         transform.position = positionPoints[(int)currentPosition].position;
         UpdateFacingDirection();
     }
-    
+
     void Update()
     {
         if (isMoving || m_stats.IsDead())
             return;
-            
+
         attackCooldown = Mathf.Max(0f, attackCooldown - Time.deltaTime);
-        
+
         // 히어로와 가까운 포지션(Left_1, Right_1)에서만 공격
         if (currentPosition == Position.Left_1 || currentPosition == Position.Right_1)
         {
@@ -104,7 +105,7 @@ public class Monster : MonoBehaviour
         {
             // 앞쪽 위치 계산
             Position frontPosition = GetFrontPosition(currentPosition);
-            
+
             // 앞에 몬스터가 없으면 전진
             if (!IsMonsterAtPosition(frontPosition))
             {
@@ -112,7 +113,7 @@ public class Monster : MonoBehaviour
             }
         }
     }
-    
+
     // 앞쪽 위치 반환
     private Position GetFrontPosition(Position current)
     {
@@ -129,7 +130,7 @@ public class Monster : MonoBehaviour
             default: return current; // Left_1, Right_1은 그대로
         }
     }
-    
+
     // 뒤쪽 위치 반환
     private Position GetBackPosition(Position current)
     {
@@ -146,10 +147,11 @@ public class Monster : MonoBehaviour
             default: return current; // Left_5, Right_5은 그대로
         }
     }
-    
+
     // 특정 위치에 몬스터가 있는지 확인
     private bool IsMonsterAtPosition(Position pos)
     {
+        //몬스터 정적 관리할지 생각 필요
         Monster[] monsters = FindObjectsOfType<Monster>();
         foreach (Monster monster in monsters)
         {
@@ -158,7 +160,7 @@ public class Monster : MonoBehaviour
         }
         return false;
     }
-    
+
     // 새 위치로 이동
     private IEnumerator MoveToPosition(Position newPos)
     {
@@ -188,7 +190,7 @@ public class Monster : MonoBehaviour
 
         isMoving = false;
     }
-    
+
     // 몬스터가 Hero를 바라보도록 방향 설정
     private void UpdateFacingDirection()
     {
@@ -199,17 +201,17 @@ public class Monster : MonoBehaviour
         else // Right 포지션들
             transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f); // 왼쪽 바라보기
     }
-    
+
     IEnumerator PlayAttackAnimation(float attackType)
     {
         isAttacking = true;
         m_animator.speed = m_stats.attackSpeedMultiplier;
         m_animator.SetTrigger("Attack" + attackType);
-        
+
         AnimatorClipInfo[] clipInfos = m_animator.GetCurrentAnimatorClipInfo(0);
         float clipLength = clipInfos.Length > 0 ? clipInfos[0].clip.length : 0.5f;
         yield return new WaitForSeconds(clipLength / m_stats.attackSpeedMultiplier);
-        
+
         isAttacking = false;
         m_animator.speed = 1.0f;
     }
