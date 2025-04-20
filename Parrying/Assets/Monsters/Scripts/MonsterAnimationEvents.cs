@@ -36,18 +36,14 @@ public class MonsterAnimationEvents : MonoBehaviour
 
 
     // 공격 콜라이더 활성화 및 비활성화
-    public void EnableWeaponColliderByIndex(int index)
+    public void EnableWeaponCollider()
     {
-        if (index >= 0 && index < m_monster.weaponColliders.Count)
-            m_monster.weaponColliders[index].EnableCollider();
+        m_monster.weaponCollider.EnableCollider();
     }
-
-    public void DisableWeaponColliderByIndex(int index)
+    public void DisableWeaponCollider()
     {
-        if (index >= 0 && index < m_monster.weaponColliders.Count)
-            m_monster.weaponColliders[index].DisableCollider();
+        m_monster.weaponCollider.DisableCollider();
     }
-
 
     // 센서 콜라이더 활성화 및 비활성화
     public void EnableSensorCollider() => m_sensorMonster.EnableCollider();

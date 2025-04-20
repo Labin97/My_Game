@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Monster : MonoBehaviour
 {
@@ -16,8 +17,8 @@ public class Monster : MonoBehaviour
     // 게임 시작 시 모든 위치 포인트 참조를 저장
     private static List<Transform> positionPoints;
     
-    [Header("Components")]
-    public List<WeaponCollider> weaponColliders;
+    private WeaponCollider      m_weaponCollider;
+    public WeaponCollider weaponCollider => m_weaponCollider;
     
     private Animator m_animator;
     private Monster_Stats m_stats;
@@ -26,6 +27,7 @@ public class Monster : MonoBehaviour
     private bool isMoving = false;
     
     public bool IsAttacking => isAttacking;
+    public int AttackNum = 2;
     
     // 게임 시작 시 한번만 실행되는 초기화
     private static bool initialized = false;
@@ -34,6 +36,7 @@ public class Monster : MonoBehaviour
     {
         m_stats = GetComponent<Monster_Stats>();
         m_animator = GetComponent<Animator>();
+        m_weaponCollider = GetComponentInChildren<WeaponCollider>();
         
         // 첫 번째로 생성된 몬스터가 위치 포인트들을 초기화
         if (!initialized)
@@ -77,10 +80,8 @@ public class Monster : MonoBehaviour
     {
         // 시작 위치로 이동
         transform.position = positionPoints[(int)currentPosition].position;
+        Debug.Log("Monster Start Position: " + currentPosition + " " + transform.position);
         UpdateFacingDirection();
-        
-        // 죽었을 때 이벤트 구독
-        // m_stats.OnDeathEvent += OnDeath;
     }
     
     void Update()
@@ -95,7 +96,7 @@ public class Monster : MonoBehaviour
         {
             if (!IsAttacking && attackCooldown <= 0f)
             {
-                int attackIndex = Random.Range(0, weaponColliders.Count);
+                int attackIndex = Random.Range(0, AttackNum);
                 StartCoroutine(PlayAttackAnimation(attackIndex + 1));
                 attackCooldown = Random.Range(4.0f, 6.0f);
             }
@@ -163,35 +164,29 @@ public class Monster : MonoBehaviour
     private IEnumerator MoveToPosition(Position newPos)
     {
         isMoving = true;
-        
-        // 이동 애니메이션 재생 (필요한 경우)
-        // m_animator.SetBool("IsMoving", true);
-        
+
         // 목표 위치
         Vector3 targetPos = positionPoints[(int)newPos].position;
-        
-        // 부드러운 이동
-        float moveSpeed = 2.0f;
-        float startTime = Time.time;
-        Vector3 startPos = transform.position;
-        float journeyLength = Vector3.Distance(startPos, targetPos);
-        
-        while (Vector3.Distance(transform.position, targetPos) > 0.05f)
-        {
-            float distCovered = (Time.time - startTime) * moveSpeed;
-            float fractionOfJourney = distCovered / journeyLength;
-            transform.position = Vector3.Lerp(startPos, targetPos, fractionOfJourney);
-            yield return null;
-        }
-        
+
+        // DOTween을 사용한 이동
+        float moveSpeed = 0.5f;
+        float duration = Vector3.Distance(transform.position, targetPos) / moveSpeed;
+
+        // DOMove 트윈 생성 및 실행
+        Tween moveTween = transform.DOMove(targetPos, duration)
+            .SetEase(Ease.Linear).SetUpdate(UpdateType.Fixed);  // 선형 이동 (원하는 다른 이징 함수로 변경 가능)
+
+        m_animator.SetBool("Run", true);  // 이동 애니메이션 시작
+
+        // 트윈이 완료될 때까지 대기
+        yield return moveTween.WaitForCompletion();
+        m_animator.SetBool("Run", false);  // 이동 애니메이션 종료
+
         // 최종 위치 설정 및 상태 업데이트
-        transform.position = targetPos;
+        transform.position = targetPos;  // 정확한 위치 보장
         currentPosition = newPos;
         UpdateFacingDirection();
-        
-        // 이동 애니메이션 종료
-        // m_animator.SetBool("IsMoving", false);
-        
+
         isMoving = false;
     }
     
@@ -219,37 +214,4 @@ public class Monster : MonoBehaviour
         isAttacking = false;
         m_animator.speed = 1.0f;
     }
-    
-    // 몬스터가 죽었을 때 호출되는 메서드
-    public void OnDeath()
-    {
-        // 뒤쪽에 있는 몬스터들에게 전진하라고 알림
-        NotifyMonstersToAdvance();
-    }
-    
-    // 뒤쪽 몬스터들에게 전진하라고 알림
-    private void NotifyMonstersToAdvance()
-    {
-        // 현재 위치 기준으로 뒤쪽 위치 계산
-        Position backPosition = GetBackPosition(currentPosition);
-        
-        // 해당 위치에 몬스터가 있는지 확인
-        Monster[] monsters = FindObjectsOfType<Monster>();
-        foreach (Monster monster in monsters)
-        {
-            if (monster.currentPosition == backPosition && !monster.m_stats.IsDead() && !monster.isMoving)
-            {
-                // 해당 몬스터에게 전진하라고 알림
-                monster.StartCoroutine(monster.MoveToPosition(currentPosition));
-                break; // 한 마리만 전진시킴
-            }
-        }
-    }
-    
-    // private void OnDestroy()
-    // {
-    //     // 이벤트 구독 해제
-    //     if (m_stats != null)
-    //         m_stats.OnDeathEvent -= OnDeath;
-    // }
 }
