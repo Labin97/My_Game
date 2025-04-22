@@ -328,6 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPosition: 3
+  positionOffset: 0
   AttackNum: 2
 --- !u!114 &3945588618362632884
 MonoBehaviour:

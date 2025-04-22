@@ -652,10 +652,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7268259379318020917, guid: 794354692958c7541a1c80de2e9ee514, type: 3}
-      propertyPath: attackSpeedMultiplier
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -735,10 +731,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goblin
       objectReference: {fileID: 0}
-    - target: {fileID: 317463775166031453, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3509715850070069179, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.85
@@ -779,10 +771,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8545053087895318014, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 22100000, guid: 6ec6a66537bf6174bbf10625abe411ca, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -839,6 +827,10 @@ PrefabInstance:
     - target: {fileID: 1146587114227386312, guid: 6cfd39ca62dd83945a42d44216cd8206, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5978262413304446572, guid: 6cfd39ca62dd83945a42d44216cd8206, type: 3}
+      propertyPath: currentPosition
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

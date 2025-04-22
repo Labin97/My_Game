@@ -14,6 +14,7 @@ public class Monster : MonoBehaviour
 
     [Header("Position Settings")]
     public Position currentPosition;
+    public float positionOffset = 0f; // 몬스터의 위치 오프셋 (필요시 조정 가능)
 
     // 게임 시작 시 모든 위치 포인트 참조를 저장
     private static List<Transform> positionPoints;
@@ -170,6 +171,15 @@ public class Monster : MonoBehaviour
 
         // 목표 위치
         Vector3 targetPos = positionPoints[(int)newPos].position;
+
+        float finalOffset = positionOffset;
+
+        if ((int)newPos < 5) // Left 포지션들
+        {
+            finalOffset = -positionOffset; // 왼쪽으로 이동
+        }
+
+        targetPos.x += finalOffset; // 오프셋 적용
 
         // DOTween을 사용한 이동
         float moveSpeed = 0.8f;
