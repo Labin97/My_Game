@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mushroom
+  m_Controller: {fileID: 9100000, guid: 4e544d33c90e59e45963d18c3fb56359, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 35b8e541c46f89c499f1745bb969001d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3073cfd4b2a8b53498c89cfdf62a3179, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: cc5be3afebaa72e43bdd7822e58bf667, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c203a35d07ffb3443831d0cf03feb432, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 01b742981ad76cb49afb230a79f6b2a0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 13fb4dff3d2252a48a78c762f1a2ad9d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 435e728228ff4f74bbb529d5a18c931e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 552cb457f6195db488d692c3be53022d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 89cc92faeb8ba354e9edf1dcd933446e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 0e386db73724c2f4a89b447af4c1f8a6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 816a9a6ec4b1d9a449c1b7197ebbe1a9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f69b543eba9ede545a26eab0a36e441c, type: 2}

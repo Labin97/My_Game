@@ -30,6 +30,8 @@ public class Monster : MonoBehaviour
     public bool IsAttacking => isAttacking;
     public int AttackNum = 2;
 
+    public bool isGuarding { get; private set; } = false;
+
     // 게임 시작 시 한번만 실행되는 초기화
     private static bool initialized = false;
 
@@ -214,5 +216,10 @@ public class Monster : MonoBehaviour
 
         isAttacking = false;
         m_animator.speed = 1.0f;
+    }
+
+    public void SetIsGuarding(bool value)
+    {
+        isGuarding = value;
     }
 }

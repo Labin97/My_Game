@@ -32,7 +32,10 @@ public class MonsterAnimationEvents : MonoBehaviour
         ShowWarning();
     }
 
-    public void EndPowerAttack() => m_animator.SetBool("PowerAttack", false);
+    public void EndPowerAttack()
+    {
+        m_animator.SetBool("PowerAttack", false);
+    }
 
 
     // 공격 콜라이더 활성화 및 비활성화
@@ -56,6 +59,15 @@ public class MonsterAnimationEvents : MonoBehaviour
         m_sensorMonster.sensorCollider.enabled = false;
     }
 
+    public void StartGuard()
+    {
+        m_monster.SetIsGuarding(true);
+    }
+
+    public void EndGuard()
+    {
+        m_monster.SetIsGuarding(false);
+    }
 
     // 파워어택 시작 시 경고 아이콘 표시
     private void ShowWarning()

@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75031628a36e70d4fb8631f48a2d2945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseAttackPower: 50
+  baseAttackPower: 10
   baseHealth: 100
   damageMultiplier: 1
   attackSpeedMultiplier: 1

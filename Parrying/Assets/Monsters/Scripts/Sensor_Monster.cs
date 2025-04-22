@@ -12,6 +12,7 @@ public class Sensor_Monster : MonoBehaviour
     private Monster                m_monster;
     [SerializeField]
     private GameObject             bloodEffectPrefab; // 피 이펙트 프리팹
+    
 
     private void Awake()
     {
@@ -40,14 +41,15 @@ public class Sensor_Monster : MonoBehaviour
 
         bool isParried = otherAnimator != null && otherAnimator.GetBool("PerfectParrying");
         bool isAttacking = m_monster.IsAttacking; // 몬스터가 공격 중인지 여부
+        bool isGuarding = m_monster.isGuarding; // 몬스터가 방어 중인지 여부
 
         // 경직 여부 판단
         bool applyStun = true;
 
         if (m_stats.SuperArmor)
         {
-            // 슈퍼 아머가 있는 경우 패링과 공격중에만 경직
-            applyStun = isParried && isAttacking;
+            // 슈퍼아머 상태일 때는 공격중에만 패리됨
+            applyStun = isParried && isAttacking && !isGuarding;
         }
 
         Hurt(damage, applyStun, other);
@@ -69,6 +71,11 @@ public class Sensor_Monster : MonoBehaviour
             CameraShake.Instance.Shake(0.15f, 0.05f); // 카메라 흔들림 효과
         }
 
+        if (m_monster.isGuarding)
+        {
+            // 방어 중일 때는 데미지 반감
+            damage *= 0.3f;
+        }
         m_stats.TakeDamage(damage);
         m_animator.SetBool("PowerAttack", false);  //파워 어택 초기화
         m_invincibleTimer = invincibleDuration;
