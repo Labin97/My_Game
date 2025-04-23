@@ -15,12 +15,13 @@ public class Monster : MonoBehaviour
     [Header("Position Settings")]
     public Position currentPosition;
     public float positionOffset = 0f; // 몬스터의 위치 오프셋 (필요시 조정 가능)
+    public int AttackNum = 2;
+
 
     // 게임 시작 시 모든 위치 포인트 참조를 저장
     private static List<Transform> positionPoints;
 
-    private WeaponCollider m_weaponCollider;
-    public WeaponCollider weaponCollider => m_weaponCollider;
+    public WeaponCollider weaponCollider { get; set; }
 
     private Animator m_animator;
     private Monster_Stats m_stats;
@@ -29,9 +30,8 @@ public class Monster : MonoBehaviour
     private bool isMoving = false;
 
     public bool IsAttacking => isAttacking;
-    public int AttackNum = 2;
 
-    public bool isGuarding { get; private set; } = false;
+    public bool isGuarding { get; set; } = false;
 
     // 게임 시작 시 한번만 실행되는 초기화
     private static bool initialized = false;
@@ -40,7 +40,7 @@ public class Monster : MonoBehaviour
     {
         m_stats = GetComponent<Monster_Stats>();
         m_animator = GetComponent<Animator>();
-        m_weaponCollider = GetComponentInChildren<WeaponCollider>();
+        weaponCollider = GetComponentInChildren<WeaponCollider>();
 
         // 첫 번째로 생성된 몬스터가 위치 포인트들을 초기화
         if (!initialized)
@@ -228,8 +228,4 @@ public class Monster : MonoBehaviour
         m_animator.speed = 1.0f;
     }
 
-    public void SetIsGuarding(bool value)
-    {
-        isGuarding = value;
-    }
 }

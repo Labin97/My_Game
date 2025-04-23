@@ -61,12 +61,12 @@ public class MonsterAnimationEvents : MonoBehaviour
 
     public void StartGuard()
     {
-        m_monster.SetIsGuarding(true);
+        m_monster.isGuarding = true;
     }
 
     public void EndGuard()
     {
-        m_monster.SetIsGuarding(false);
+        m_monster.isGuarding = false;
     }
 
     // 파워어택 시작 시 경고 아이콘 표시

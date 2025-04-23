@@ -2,24 +2,23 @@
 using System.Collections;
 
 public class Hero : MonoBehaviour {
-    private WeaponCollider      m_weaponCollider;
-    public WeaponCollider weaponCollider => m_weaponCollider;
+    public WeaponCollider weaponCollider {get; private set;}
 
     private Animator            m_animator;
     private Hero_Stats          m_stats;
     private Sensor_Hero         m_sensorHero;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
-    public bool isGuarding { get; private set; } = false;
-    public bool isParrying { get; private set; } = false;
-    public bool isPerfectParrying { get; private set; } = false;
-    public bool isPerfectGuard { get; private set; } = false;
+    public bool isGuarding { get; set; } = false;
+    public bool isParrying { get; set; } = false;
+    public bool isPerfectParrying { get; set; } = false;
+    public bool isPerfectGuard { get; set; } = false;
 
 
     // Use this for initialization
     void Start () {
         m_stats = GetComponent<Hero_Stats>();
-        m_weaponCollider = GetComponentInChildren<WeaponCollider>();
+        weaponCollider = GetComponentInChildren<WeaponCollider>();
         m_sensorHero = GetComponentInChildren<Sensor_Hero>();
         m_animator = GetComponent<Animator>();
     }
@@ -130,23 +129,5 @@ public class Hero : MonoBehaviour {
         float directionToAttacker = Mathf.Sign(attacker.position.x - transform.position.x);
         return (heroFacing * directionToAttacker) > 0f;
     }
-
-    public void SetIsParrying(bool value)
-    {
-        isParrying = value;
-    }
-    public void SetIsPerfectParrying(bool value)
-    {
-        isPerfectParrying = value;
-    }
-
-    public void SetIsGuarding(bool value)
-    {
-        isGuarding = value;
-    }
-
-    public void SetIsPerfectGuard(bool value)
-    {
-        isPerfectGuard = value;
-    }
 }
+

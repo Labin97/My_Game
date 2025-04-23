@@ -34,25 +34,25 @@ public class HeroAnimationEvents : MonoBehaviour
     //패링
     public void StartParrying()
     {
-        m_hero.SetIsParrying(true);
+        m_hero.isParrying = true;
         m_animator.SetBool("IsParrying", true);
     }
 
     public void EndParrying()
     {
-        m_hero.SetIsParrying(false);
+        m_hero.isParrying = false;
         m_animator.SetBool("IsParrying", false);
     }
 
     private void StartPerfectParrying()
     {
-        m_hero.SetIsPerfectParrying(true);
+        m_hero.isPerfectParrying = true;
         m_animator.SetBool("PerfectParrying", true);
     }
 
     private void EndPerfectParrying()
     {
-        m_hero.SetIsPerfectParrying(false);
+        m_hero.isPerfectParrying = false;
         m_animator.SetBool("PerfectParrying", false);
     }
 
@@ -71,11 +71,11 @@ public class HeroAnimationEvents : MonoBehaviour
     //퍼펙트 가드
     public void StartPerfectGuard()
     {
-        m_hero.SetIsPerfectGuard(true);
+        m_hero.isPerfectGuard = true;
     }
 
     public void EndPerfectGuard()
     {
-        m_hero.SetIsPerfectGuard(false);
+        m_hero.isPerfectGuard = false;
     }
 }
