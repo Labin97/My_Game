@@ -237,10 +237,4 @@ public class Monster : MonoBehaviour
         return m_stats.IsDead();
     }
 
-    private void OnDestroy()
-    {
-        // 몬스터 매니저에서 제거
-        if (MonsterManager.Instance != null)
-            MonsterManager.Instance.UnregisterMonster(this);
-    }
 }

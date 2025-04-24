@@ -28,32 +28,20 @@ public class MonsterManager : MonoBehaviour
     
     private void Update()
     {
-        // 디버그 정보 추가
-        if (activeMonsters.Count > 0)
-        {
-            Debug.Log($"활성 몬스터 수: {activeMonsters.Count}");
-            foreach (Monster monster in activeMonsters)
-            {
-                Debug.Log($"몬스터 {monster.name} 상태: {(monster.IsDead() ? "죽음" : "살아있음")}");
-            }
-        }
-        
+
         // 몬스터가 있고 모두 죽었는지 확인
         bool allDead = AreAllMonstersDead();
         
-        // 디버그 출력 추가
-        Debug.Log($"모든 몬스터 죽음: {allDead}, 이전 상태: {wasAllDead}, 활성 몬스터 수: {activeMonsters.Count}");
-        
         // 이전 상태와 현재 상태가 다를 때만 이벤트 발생
-        if (!wasAllDead && allDead && activeMonsters.Count > 0)
+        if (!wasAllDead && allDead)
         {
             Debug.Log("모든 몬스터가 죽었습니다!");
             OnAllMonstersDead?.Invoke();
         }
-        
+
         wasAllDead = allDead;
     }
-    
+
     public void RegisterMonster(Monster monster)
     {
         if (!activeMonsters.Contains(monster))
@@ -67,6 +55,8 @@ public class MonsterManager : MonoBehaviour
     public void UnregisterMonster(Monster monster)
     {
         activeMonsters.Remove(monster);
+        Debug.Log("몬스터 등록 해제됨: " + monster.name);
+        Debug.Log("남은 몬스터 수: " + activeMonsters.Count);
     }
     
     public bool AreAllMonstersDead()
