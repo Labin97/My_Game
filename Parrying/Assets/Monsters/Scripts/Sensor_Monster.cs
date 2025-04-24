@@ -40,7 +40,7 @@ public class Sensor_Monster : MonoBehaviour
         float damage = heroStats.GetCurrentAttackDamage();
 
         bool isParried = otherAnimator != null && otherAnimator.GetBool("PerfectParrying");
-        bool isAttacking = m_monster.IsAttacking; // 몬스터가 공격 중인지 여부
+        bool isAttacking = m_monster.isAttacking; // 몬스터가 공격 중인지 여부
         bool isGuarding = m_monster.isGuarding; // 몬스터가 방어 중인지 여부
 
         // 경직 여부 판단
@@ -54,11 +54,10 @@ public class Sensor_Monster : MonoBehaviour
 
         Hurt(damage, applyStun, other);
 
-        if (m_stats.currentHealth <= 0f)
+        if (m_stats.IsDead())
         {
             m_animator.SetBool("Death", true);
             m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
-
             Destroy(transform.root.gameObject, m_stats.DeathTime);
         }   
     }  

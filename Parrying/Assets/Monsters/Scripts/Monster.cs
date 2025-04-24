@@ -26,10 +26,9 @@ public class Monster : MonoBehaviour
     private Animator m_animator;
     private Monster_Stats m_stats;
     private float attackCooldown = 0f;
-    private bool isAttacking = false;
     private bool isMoving = false;
 
-    public bool IsAttacking => isAttacking;
+    public bool isAttacking { get; set; } = false;
 
     public bool isGuarding { get; set; } = false;
 
@@ -41,6 +40,10 @@ public class Monster : MonoBehaviour
         m_stats = GetComponent<Monster_Stats>();
         m_animator = GetComponent<Animator>();
         weaponCollider = GetComponentInChildren<WeaponCollider>();
+
+        // 몬스터 매니저에 등록
+        if (MonsterManager.Instance != null)
+            MonsterManager.Instance.RegisterMonster(this);
 
         // 첫 번째로 생성된 몬스터가 위치 포인트들을 초기화
         if (!initialized)
@@ -97,7 +100,7 @@ public class Monster : MonoBehaviour
         // 히어로와 가까운 포지션(Left_1, Right_1)에서만 공격
         if (currentPosition == Position.Left_1 || currentPosition == Position.Right_1)
         {
-            if (!IsAttacking && attackCooldown <= 0f)
+            if (!isAttacking && attackCooldown <= 0f)
             {
                 int attackIndex = Random.Range(0, AttackNum);
                 StartCoroutine(PlayAttackAnimation(attackIndex + 1));
@@ -193,6 +196,7 @@ public class Monster : MonoBehaviour
 
         // 트윈이 완료될 때까지 대기
         yield return moveTween.WaitForCompletion();
+
         m_animator.SetBool("Run", false);  // 이동 애니메이션 종료
 
         // 최종 위치 설정 및 상태 업데이트
@@ -228,4 +232,15 @@ public class Monster : MonoBehaviour
         m_animator.speed = 1.0f;
     }
 
+    public bool IsDead()
+    {
+        return m_stats.IsDead();
+    }
+
+    private void OnDestroy()
+    {
+        // 몬스터 매니저에서 제거
+        if (MonsterManager.Instance != null)
+            MonsterManager.Instance.UnregisterMonster(this);
+    }
 }
