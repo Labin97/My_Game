@@ -14,7 +14,10 @@ public class Sensor_Hero : MonoBehaviour
     private GameObject          guardEffectPrefab; // 가드 이펙트 프리팹
     [SerializeField]
     private Transform           guardEffectPoint; // 가드 이펙트 위치
+    [SerializeField]
+    private GameObject          parryingEffectPrefab; // 패링 이펙트 프리팹
     private GameObject          guardEffectInstance; // 가드 이펙트 인스턴스
+    private GameObject          parryingEffectInstance; // 패링 이펙트 인스턴스
 
 
     private void Awake()
@@ -27,6 +30,7 @@ public class Sensor_Hero : MonoBehaviour
     private void Start()
     {
         guardEffectInstance = Instantiate(guardEffectPrefab, guardEffectPoint.position, guardEffectPoint.rotation, guardEffectPoint); //가드 이펙트 인스턴스 생성
+        parryingEffectInstance = Instantiate(parryingEffectPrefab, guardEffectPoint.position, guardEffectPoint.rotation, guardEffectPoint); //패링 이펙트 인스턴스 생성
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -49,16 +53,16 @@ public class Sensor_Hero : MonoBehaviour
         Vector3 hitPosition = other.ClosestPoint(transform.position);
 
         //패링 방향이나 가드 방향의 실패
-        if ((m_hero.isGuarding && !isFacing) || (m_hero.isParrying && !isFacing))
+        if ((m_hero.isGuarding && !isFacing) || (m_hero.isParrying && !isFacing) || (m_hero.isPerfectParrying && !isFacing))
         {
             Hurt(damage, hitPosition); // 히어로 체력 감소
         }
 
         // 패링 성공
-        else if (m_hero.isPerfectParrying)
+        else if (m_hero.isPerfectParrying && isFacing)
         {
             Debug.Log("Parrying " + other.transform.parent.name);
-            PlayGuardEffect(); // 가드 이펙트 재생
+            PlayParryingEffect(); // 패링 이펙트 재생
         }
 
         // 가드 성공
@@ -138,6 +142,16 @@ public class Sensor_Hero : MonoBehaviour
         if (guardEffectInstance != null && guardEffectPoint != null)
         {
             ParticleSystem effect = guardEffectInstance.GetComponent<ParticleSystem>();
+            if (effect != null)
+                effect.Play();
+        }
+    }
+
+    private void PlayParryingEffect()
+    {
+        if (parryingEffectInstance != null && guardEffectPoint != null)
+        {
+            ParticleSystem effect = parryingEffectInstance.GetComponent<ParticleSystem>();
             if (effect != null)
                 effect.Play();
         }

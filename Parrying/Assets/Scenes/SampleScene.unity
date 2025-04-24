@@ -879,6 +879,10 @@ PrefabInstance:
       propertyPath: textObject
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2118027783844561724, guid: 794354692958c7541a1c80de2e9ee514, type: 3}
+      propertyPath: parryingEffectPrefab
+      value: 
+      objectReference: {fileID: 8775746623177730509, guid: 7ffbc99b3f58252488ef6d25cd0f6e2e, type: 3}
     - target: {fileID: 7268259379318020917, guid: 794354692958c7541a1c80de2e9ee514, type: 3}
       propertyPath: baseAttackPower
       value: 100
@@ -1051,7 +1055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea5a2fcb4fdb7c4abaf48ae22159d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageIndex: 0
   stages:
   - {fileID: 318416087}
   - {fileID: 945341395}

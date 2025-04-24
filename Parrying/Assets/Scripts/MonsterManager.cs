@@ -9,6 +9,8 @@ public class MonsterManager : MonoBehaviour
     
     // 모든 몬스터가 죽었을 때 발생하는 이벤트
     public event System.Action OnAllMonstersDead;
+
+    private bool startMonsterCheck = false;
     
     // 이전에 모든 몬스터가 죽었는지 상태를 저장
     private bool wasAllDead = false;
@@ -28,7 +30,6 @@ public class MonsterManager : MonoBehaviour
     
     private void Update()
     {
-
         // 몬스터가 있고 모두 죽었는지 확인
         bool allDead = AreAllMonstersDead();
         
@@ -43,6 +44,7 @@ public class MonsterManager : MonoBehaviour
 
     public void RegisterMonster(Monster monster)
     {
+        startMonsterCheck = true;
         if (!activeMonsters.Contains(monster))
             activeMonsters.Add(monster);
         
@@ -57,6 +59,9 @@ public class MonsterManager : MonoBehaviour
     
     public bool AreAllMonstersDead()
     {
+        if (!startMonsterCheck)
+            return false; 
+
         if (activeMonsters.Count == 0)
             return true;
         
