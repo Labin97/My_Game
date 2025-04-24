@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     private float totalSoulPoint = 0;
-    public int stageIndex;
+    private int stageIndex;
     public GameObject[] stages;
     
     private void Awake()
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
         int currentStageIndex = stageIndex;
         if (currentStageIndex < stages.Length - 1)
         {
+            // 스테이지 클리어 처리, 걷기 애니메이션, 배경 이동
             stages[currentStageIndex].SetActive(false);
             stages[currentStageIndex + 1].SetActive(true);
             stageIndex++; // 스테이지 인덱스 증가 추가

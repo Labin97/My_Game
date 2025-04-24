@@ -35,7 +35,6 @@ public class MonsterManager : MonoBehaviour
         // 이전 상태와 현재 상태가 다를 때만 이벤트 발생
         if (!wasAllDead && allDead)
         {
-            Debug.Log("모든 몬스터가 죽었습니다!");
             OnAllMonstersDead?.Invoke();
         }
 
@@ -46,7 +45,6 @@ public class MonsterManager : MonoBehaviour
     {
         if (!activeMonsters.Contains(monster))
             activeMonsters.Add(monster);
-        Debug.Log("몬스터 등록됨: " + monster.name);
         
         // 몬스터가 추가되면 상태 리셋
         wasAllDead = false;
@@ -55,8 +53,6 @@ public class MonsterManager : MonoBehaviour
     public void UnregisterMonster(Monster monster)
     {
         activeMonsters.Remove(monster);
-        Debug.Log("몬스터 등록 해제됨: " + monster.name);
-        Debug.Log("남은 몬스터 수: " + activeMonsters.Count);
     }
     
     public bool AreAllMonstersDead()

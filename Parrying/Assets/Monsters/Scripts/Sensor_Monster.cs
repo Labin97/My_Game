@@ -59,7 +59,6 @@ public class Sensor_Monster : MonoBehaviour
             m_animator.SetBool("Death", true);
             m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
 
-            MonsterManager.Instance.UnregisterMonster(m_monster); // 몬스터 매니저에서 등록 해제
             Destroy(transform.parent.gameObject, m_stats.DeathTime);
         }   
     }  
