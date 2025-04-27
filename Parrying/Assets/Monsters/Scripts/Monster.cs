@@ -228,7 +228,6 @@ public class Monster : MonoBehaviour
 
     IEnumerator PlayAttackAnimation(float attackType)
     {
-        isAttacking = true;
         m_animator.speed = m_stats.attackSpeedMultiplier;
         m_animator.SetTrigger("Attack" + attackType);
 
@@ -236,7 +235,6 @@ public class Monster : MonoBehaviour
         float clipLength = clipInfos.Length > 0 ? clipInfos[0].clip.length : 0.5f;
         yield return new WaitForSeconds(clipLength / m_stats.attackSpeedMultiplier);
 
-        isAttacking = false;
         m_animator.speed = 1.0f;
     }
 

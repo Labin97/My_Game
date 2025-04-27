@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Hero : MonoBehaviour {
-    public WeaponCollider weaponCollider {get; private set;}
+    public WeaponCollider weaponCollider { get; private set; }
 
     private Animator            m_animator;
     private Hero_Stats          m_stats;

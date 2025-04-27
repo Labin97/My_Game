@@ -52,11 +52,13 @@ public class MonsterAnimationEvents : MonoBehaviour
     public void EnableSensorCollider()
     {
         m_sensorMonster.sensorCollider.enabled = true;
+        m_monster.isAttacking = true;
     }
 
     public void DisableSensorCollider()
     {
         m_sensorMonster.sensorCollider.enabled = false;
+        m_monster.isAttacking = false;
     }
 
     public void StartGuard()

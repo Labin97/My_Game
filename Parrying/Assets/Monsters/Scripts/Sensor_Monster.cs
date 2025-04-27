@@ -3,11 +3,10 @@ using System.Collections;
 
 public class Sensor_Monster : MonoBehaviour
 {
+    public Collider2D sensorCollider { get; private set; }
     private float invincibleDuration = 0.1f;
     private float m_invincibleTimer = 0f;
     private Animator               m_animator;
-    private Collider2D             m_sensorCollider;
-    public Collider2D sensorCollider => m_sensorCollider;
     private Monster_Stats          m_stats;
     private Monster                m_monster;
     [SerializeField]
@@ -16,7 +15,7 @@ public class Sensor_Monster : MonoBehaviour
 
     private void Awake()
     {
-        m_sensorCollider = GetComponent<Collider2D>();
+        sensorCollider = GetComponent<Collider2D>();
         m_animator = GetComponentInParent<Animator>();
         m_stats = GetComponentInParent<Monster_Stats>();
         m_monster = GetComponentInParent<Monster>();
@@ -51,6 +50,7 @@ public class Sensor_Monster : MonoBehaviour
             // 슈퍼아머 상태일 때는 공격중에만 패리됨
             applyStun = isParried && isAttacking && !isGuarding;
         }
+        Debug.Log($"isParried: {isParried}, isAttacking: {isAttacking}, isGuarding: {isGuarding}, SuperArmor: {m_stats.SuperArmor}, applyStun: {applyStun}");
 
         Hurt(damage, applyStun, other);
     }  
@@ -81,7 +81,7 @@ public class Sensor_Monster : MonoBehaviour
         if (m_stats.IsDead())
         {
             m_animator.SetBool("Death", true);
-            m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
+            sensorCollider.enabled = false; // 죽으면 센서 비활성화
 
             Destroy(transform.parent.gameObject, m_stats.DeathTime);
             string soundName = m_monster.monsterType.ToString() + "_Death";
