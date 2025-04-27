@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Enemy
   - Weapon
+  - Background
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
   - HeroHitSensor

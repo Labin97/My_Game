@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Hero_Stats : MonoBehaviour
 {
@@ -13,13 +14,17 @@ public class Hero_Stats : MonoBehaviour
 
     [Header("Runtime Stats")]
     public float currentHealth;
-    
+    public float skillGage = 0f;
     private float parryingMultiplier = 1f;
+    public Slider HealthSlider;
+    public Slider SkillGageSlider;
 
     //체력 초기화
     private void Awake()
     {
         currentHealth = baseHealth;
+        UpdateHealthSlider();
+        UpdateSkillGageSlider();
     }
 
     // 공격력 계산
@@ -61,6 +66,7 @@ public class Hero_Stats : MonoBehaviour
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, baseHealth);
+        UpdateHealthSlider();
     }
 
     // 회복
@@ -68,6 +74,7 @@ public class Hero_Stats : MonoBehaviour
     {
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, baseHealth);
+        UpdateHealthSlider();
     }
 
     //죽음 체크
@@ -75,4 +82,29 @@ public class Hero_Stats : MonoBehaviour
     {
         return currentHealth <= 0;
     }
+
+    public void SkillGageChange(float amount)
+    {
+        skillGage += amount;
+        skillGage = Mathf.Clamp(skillGage, 0, 99);
+        UpdateSkillGageSlider();
+    }
+
+    private void UpdateSkillGageSlider()
+    {
+        if (SkillGageSlider != null)
+        {
+            SkillGageSlider.value = skillGage / 99f;
+        }
+    }
+
+    private void UpdateHealthSlider()
+    {
+        if (HealthSlider != null)
+        {
+            float healthPercent = currentHealth / baseHealth;
+            HealthSlider.value = healthPercent;
+        }
+    }
+
 }

@@ -63,6 +63,7 @@ public class Sensor_Hero : MonoBehaviour
         {
             Debug.Log("Parrying " + other.transform.parent.name);
             PlayParryingEffect(); // 패링 이펙트 재생
+            m_stats.SkillGageChange(33f);
         }
 
         // 가드 성공
@@ -76,6 +77,7 @@ public class Sensor_Hero : MonoBehaviour
                     m_stats.TakeDamage(0f); // 완벽 방어 시 데미지 100% 감소
                     CameraShake.Instance.Shake(0.15f, 0.05f); // 카메라 흔들림 효과
                     PlayGuardEffect(); // 가드 이펙트 재생
+                    m_stats.SkillGageChange(11f);
                 }
                 else 
                 {
@@ -97,15 +99,11 @@ public class Sensor_Hero : MonoBehaviour
         // 맞음
         else
             Hurt(damage, hitPosition); // 히어로 체력 감소
-
-        
-        Debug.Log("Hero current health: " + m_stats.currentHealth);
     }
 
     // 히어로가 맞았을 때
     private void Hurt(float damage, Vector3 hitPosition)
     {
-        Debug.Log("Hit by monster");
 
         m_animator.SetTrigger("Hurt");
         CameraShake.Instance.Shake(0.15f, 0.2f); // 카메라 흔들림 효과

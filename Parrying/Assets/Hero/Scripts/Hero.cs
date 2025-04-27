@@ -9,6 +9,7 @@ public class Hero : MonoBehaviour {
     private Sensor_Hero         m_sensorHero;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
+    private bool                m_controlEnabled = true;
     public bool isGuarding { get; set; } = false;
     public bool isParrying { get; set; } = false;
     public bool isPerfectParrying { get; set; } = false;
@@ -28,7 +29,7 @@ public class Hero : MonoBehaviour {
         // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
 
-        bool canMove = CanMove();
+        bool canMove = m_controlEnabled && CanMove();
 
         // Swap direction
         if (canMove)
@@ -128,6 +129,11 @@ public class Hero : MonoBehaviour {
         float heroFacing = -transform.localScale.x;
         float directionToAttacker = Mathf.Sign(attacker.position.x - transform.position.x);
         return (heroFacing * directionToAttacker) > 0f;
+    }
+
+    public void SetControlEnabled(bool enabled)
+    {
+        m_controlEnabled = enabled;
     }
 }
 
