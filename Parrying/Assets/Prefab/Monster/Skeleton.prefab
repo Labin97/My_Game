@@ -103,7 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4e0bc9e4d4b9d48a18cc89b7a7c83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPosition: 3
+  monsterType: 1
+  currentPosition: 7
   positionOffset: 0.3
   AttackNum: 3
 --- !u!114 &6135904740645148792

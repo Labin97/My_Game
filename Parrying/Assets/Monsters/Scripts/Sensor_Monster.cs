@@ -53,14 +53,6 @@ public class Sensor_Monster : MonoBehaviour
         }
 
         Hurt(damage, applyStun, other);
-
-        if (m_stats.IsDead())
-        {
-            m_animator.SetBool("Death", true);
-            m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
-
-            Destroy(transform.parent.gameObject, m_stats.DeathTime);
-        }   
     }  
 
     private void Hurt(float damage, bool applyStun, Collider2D other)
@@ -75,20 +67,39 @@ public class Sensor_Monster : MonoBehaviour
         {
             // 방어 중일 때는 데미지 반감
             damage *= 0.3f;
+            AudioManager.instance.PlaySFX("Guard"); // 방어 사운드 재생
         }
         m_stats.TakeDamage(damage);
         m_animator.SetBool("PowerAttack", false);  //파워 어택 초기화
         m_invincibleTimer = invincibleDuration;
 
+        Vector3 hitPosition = other.ClosestPoint(transform.position);
+
+        PlayBloodEffect(hitPosition); // 피 이펙트 재생
+
+        //죽음
+        if (m_stats.IsDead())
+        {
+            m_animator.SetBool("Death", true);
+            m_sensorCollider.enabled = false; // 죽으면 센서 비활성화
+
+            Destroy(transform.parent.gameObject, m_stats.DeathTime);
+            string soundName = m_monster.monsterType.ToString() + "_Death";
+            AudioManager.instance.PlaySFX(soundName); // 죽음 사운드 재생
+        }   
+
+        Debug.Log("Monster current health: " + m_stats.currentHealth);
+    }
+
+    private void PlayBloodEffect(Vector3 hitPosition)
+    {
         if (bloodEffectPrefab != null)
         {
             // 피 이펙트 생성
-            Vector3 hitPosition = other.ClosestPoint(transform.position);
             GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
             Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
         }
-
-        Debug.Log("Monster current health: " + m_stats.currentHealth);
+        AudioManager.instance.PlaySFX("Hurt"); // 피 사운드 재생
     }
 
     void Update()

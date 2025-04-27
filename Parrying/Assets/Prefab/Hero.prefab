@@ -142,6 +142,9 @@ MonoBehaviour:
   minParryingBonus: 1.5
   maxParryingBonus: 2
   currentHealth: 0
+  skillGage: 0
+  HealthSlider: {fileID: 0}
+  SkillGageSlider: {fileID: 0}
 --- !u!114 &7875366725351088389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +238,7 @@ MonoBehaviour:
   bloodEffectPrefab: {fileID: 4932473303761629094, guid: ddcadc569b736a04e89a6c6cc3c716d4, type: 3}
   guardEffectPrefab: {fileID: 2144537461741970869, guid: 515ceeee2ca223746b26d5e2b32ea893, type: 3}
   guardEffectPoint: {fileID: 3475154630917402304}
+  parryingEffectPrefab: {fileID: 8775746623177730509, guid: 7ffbc99b3f58252488ef6d25cd0f6e2e, type: 3}
 --- !u!61 &7540106012034803152
 BoxCollider2D:
   m_ObjectHideFlags: 0

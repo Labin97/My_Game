@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     
     private void Start()
     {
+        AudioManager.instance.PlayBGM("BGM_Stage1"); // 배경음악 재생
         // MonsterManager의 이벤트 구독
         if (MonsterManager.Instance != null)
         {

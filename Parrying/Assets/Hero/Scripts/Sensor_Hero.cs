@@ -133,6 +133,7 @@ public class Sensor_Hero : MonoBehaviour
             GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
             Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
         }
+        AudioManager.instance.PlaySFX("Hurt"); // 피 사운드 재생
     }
     
     private void PlayGuardEffect()
@@ -143,6 +144,7 @@ public class Sensor_Hero : MonoBehaviour
             if (effect != null)
                 effect.Play();
         }
+        AudioManager.instance.PlaySFX("Guard"); // 가드 사운드 재생
     }
 
     private void PlayParryingEffect()
@@ -153,6 +155,7 @@ public class Sensor_Hero : MonoBehaviour
             if (effect != null)
                 effect.Play();
         }
+        AudioManager.instance.PlaySFX("Parrying"); // 패링 사운드 재생
     }
 
     void Update()

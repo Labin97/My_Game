@@ -5,12 +5,20 @@ using DG.Tweening;
 
 public class Monster : MonoBehaviour
 {
-    // 더 많은 위치 정의 (좌우 각 5개)
+    // 위치 정의 (좌우 각 5개)
     public enum Position
     {
         Left_5 = 0, Left_4 = 1, Left_3 = 2, Left_2 = 3, Left_1 = 4,
         Right_1 = 5, Right_2 = 6, Right_3 = 7, Right_4 = 8, Right_5 = 9
     }
+
+    public enum MonsterType
+    {
+        Goblin, Skeleton, Mushroom, Flying_Eye
+    }
+
+    [Header("Monster Type")]
+    public MonsterType monsterType;
 
     [Header("Position Settings")]
     public Position currentPosition;

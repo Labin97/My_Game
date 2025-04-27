@@ -327,6 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4e0bc9e4d4b9d48a18cc89b7a7c83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterType: 3
   currentPosition: 3
   positionOffset: 0
   AttackNum: 2
