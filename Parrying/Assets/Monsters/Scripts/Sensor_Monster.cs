@@ -50,7 +50,6 @@ public class Sensor_Monster : MonoBehaviour
             // 슈퍼아머 상태일 때는 공격중에만 패리됨
             applyStun = isParried && isAttacking && !isGuarding;
         }
-        Debug.Log($"isParried: {isParried}, isAttacking: {isAttacking}, isGuarding: {isGuarding}, SuperArmor: {m_stats.SuperArmor}, applyStun: {applyStun}");
 
         Hurt(damage, applyStun, other);
     }  

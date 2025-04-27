@@ -23,7 +23,10 @@ public class Monster : MonoBehaviour
     [Header("Position Settings")]
     public Position currentPosition;
     public float positionOffset = 0f; // 몬스터의 위치 오프셋 (필요시 조정 가능)
-    public int AttackNum = 2;
+    [Header("Attack Settings")]
+    public int attackNum = 2;
+    public float attackMinCool = 3f;
+    public float attackMaxCool = 5f;
 
 
     // 게임 시작 시 모든 위치 포인트 참조를 저장
@@ -110,9 +113,9 @@ public class Monster : MonoBehaviour
         {
             if (!isAttacking && attackCooldown <= 0f)
             {
-                int attackIndex = Random.Range(0, AttackNum);
+                int attackIndex = Random.Range(0, attackNum);
                 StartCoroutine(PlayAttackAnimation(attackIndex + 1));
-                attackCooldown = Random.Range(4.0f, 6.0f);
+                attackCooldown = Random.Range(attackMinCool, attackMaxCool);
             }
         }
         else
@@ -211,6 +214,7 @@ public class Monster : MonoBehaviour
         transform.position = targetPos;  // 정확한 위치 보장
         currentPosition = newPos;
         UpdateFacingDirection();
+        attackCooldown = Random.Range(attackMinCool - 1f, attackMaxCool - 1f);
 
         isMoving = false;
     }
