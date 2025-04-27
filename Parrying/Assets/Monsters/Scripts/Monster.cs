@@ -28,6 +28,14 @@ public class Monster : MonoBehaviour
     public float attackMinCool = 3f;
     public float attackMaxCool = 5f;
 
+    [Header ("Sound Effects")]
+    public AudioClip attack1Sound;
+    public AudioClip attack2Sound;
+    public AudioClip attack3Sound;
+    public AudioClip hurtSound;
+    public AudioClip deathSound;
+    public AudioClip guardSound;
+
 
     // 게임 시작 시 모든 위치 포인트 참조를 저장
     private static List<Transform> positionPoints;
@@ -235,6 +243,14 @@ public class Monster : MonoBehaviour
         m_animator.speed = m_stats.attackSpeedMultiplier;
         m_animator.SetTrigger("Attack" + attackType);
 
+        // 공격 타입에 따라 다른 소리 재생
+        if (attackType == 1 && attack1Sound != null)
+            PlaySoundEffect(attack1Sound);
+        else if (attackType == 2 && attack2Sound != null)
+            PlaySoundEffect(attack2Sound);
+        else if (attackType == 3 && attack3Sound != null)
+            PlaySoundEffect(attack3Sound); 
+
         AnimatorClipInfo[] clipInfos = m_animator.GetCurrentAnimatorClipInfo(0);
         float clipLength = clipInfos.Length > 0 ? clipInfos[0].clip.length : 0.5f;
         yield return new WaitForSeconds(clipLength / m_stats.attackSpeedMultiplier);
@@ -254,6 +270,14 @@ public class Monster : MonoBehaviour
         {
             MonsterManager.Instance.UnregisterMonster(this);
             GameManager.Instance.AddSoulPoint(m_stats.soulPoint); // 소울 포인트 추가
+        }
+    }
+
+    public void PlaySoundEffect(AudioClip clip)
+    {
+        if (clip != null && AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayClip(clip); // 사운드 재생
         }
     }
 

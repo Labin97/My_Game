@@ -246,7 +246,15 @@ MonoBehaviour:
   monsterType: 0
   currentPosition: 2
   positionOffset: 0
-  AttackNum: 2
+  attackNum: 2
+  attackMinCool: 3
+  attackMaxCool: 5
+  attack1Sound: {fileID: 0}
+  attack2Sound: {fileID: 8300000, guid: ac6c400876159a54582440c4263b60be, type: 3}
+  attack3Sound: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: 2882b7c491d8d4744a232c6c849cd76c, type: 3}
+  deathSound: {fileID: 8300000, guid: 61e3d6f84b68cbd43ad3bb370f3c6e29, type: 3}
+  guardSound: {fileID: 0}
 --- !u!114 &2459453665193405289
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -61,9 +61,14 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX(string soundName)
     {
         if (soundDictionary.ContainsKey(soundName))
-        {
             sfxSource.PlayOneShot(soundDictionary[soundName]);
-        }
+    }
+
+    //효과음 재생
+    public void PlayClip(AudioClip clip)
+    {
+        if (clip != null)
+            sfxSource.PlayOneShot(clip); // 사운드 재생
     }
     
     // 볼륨 조절 함수

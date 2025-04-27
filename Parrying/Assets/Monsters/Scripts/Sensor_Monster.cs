@@ -52,10 +52,14 @@ public class Sensor_Monster : MonoBehaviour
         }
 
         Hurt(damage, applyStun, other);
+        heroStats.SkillGageChange(5f);
     }  
 
     private void Hurt(float damage, bool applyStun, Collider2D other)
     {
+        if (m_monster.hurtSound != null)
+            m_monster.PlaySoundEffect(m_monster.hurtSound); // 사운드 재생
+
         if (applyStun)
         {
             m_animator.SetTrigger("Hurt");
@@ -65,8 +69,9 @@ public class Sensor_Monster : MonoBehaviour
         if (m_monster.isGuarding)
         {
             // 방어 중일 때는 데미지 반감
+            if (m_monster.guardSound != null)
+                m_monster.PlaySoundEffect(m_monster.guardSound); // 사운드 재생
             damage *= 0.3f;
-            AudioManager.instance.PlaySFX("Guard"); // 방어 사운드 재생
         }
         m_stats.TakeDamage(damage);
         m_animator.SetBool("PowerAttack", false);  //파워 어택 초기화
@@ -82,9 +87,10 @@ public class Sensor_Monster : MonoBehaviour
             m_animator.SetBool("Death", true);
             sensorCollider.enabled = false; // 죽으면 센서 비활성화
 
+        if (m_monster.deathSound != null)
+            m_monster.PlaySoundEffect(m_monster.deathSound); // 사운드 재생
+
             Destroy(transform.parent.gameObject, m_stats.DeathTime);
-            string soundName = m_monster.monsterType.ToString() + "_Death";
-            AudioManager.instance.PlaySFX(soundName); // 죽음 사운드 재생
         }   
 
         Debug.Log("Monster current health: " + m_stats.currentHealth);
@@ -98,7 +104,6 @@ public class Sensor_Monster : MonoBehaviour
             GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
             Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
         }
-        AudioManager.instance.PlaySFX("Hurt"); // 피 사운드 재생
     }
 
     void Update()

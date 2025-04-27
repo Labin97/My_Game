@@ -104,9 +104,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 1
-  currentPosition: 7
+  currentPosition: 1
   positionOffset: 0.3
-  AttackNum: 3
+  attackNum: 2
+  attackMinCool: 3
+  attackMaxCool: 5
+  attack1Sound: {fileID: 0}
+  attack2Sound: {fileID: 0}
+  attack3Sound: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: bd61f9d7a01464442a914aa6cc54a055, type: 3}
+  deathSound: {fileID: 8300000, guid: f9c62b6eb56c43348bf633cedbb9df4c, type: 3}
+  guardSound: {fileID: 8300000, guid: f6c20426da7961e4a9f58b6aa30abb13, type: 3}
 --- !u!114 &6135904740645148792
 MonoBehaviour:
   m_ObjectHideFlags: 0

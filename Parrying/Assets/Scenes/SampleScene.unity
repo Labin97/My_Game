@@ -4572,10 +4572,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f2e84801275a1bb4dbe0576460999144, type: 3}
   - name: Shield
     clip: {fileID: 8300000, guid: f6c20426da7961e4a9f58b6aa30abb13, type: 3}
-  - name: Goblin_Death
-    clip: {fileID: 8300000, guid: 61e3d6f84b68cbd43ad3bb370f3c6e29, type: 3}
-  - name: Skeleton_Death
-    clip: {fileID: 8300000, guid: f9c62b6eb56c43348bf633cedbb9df4c, type: 3}
 --- !u!1001 &4544848855300203087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4587,10 +4583,6 @@ PrefabInstance:
     - target: {fileID: 317463775166031453, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: m_Name
       value: Goblin
-      objectReference: {fileID: 0}
-    - target: {fileID: 317463775166031453, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3509715850070069179, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4631,10 +4623,6 @@ PrefabInstance:
     - target: {fileID: 3509715850070069179, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8837074728392326892, guid: dcd5e6de47d8a6e468cdec0c444e0948, type: 3}
-      propertyPath: currentPosition
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4692,14 +4680,6 @@ PrefabInstance:
     - target: {fileID: 1146587114227386312, guid: 6cfd39ca62dd83945a42d44216cd8206, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5978262413304446572, guid: 6cfd39ca62dd83945a42d44216cd8206, type: 3}
-      propertyPath: monsterType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5978262413304446572, guid: 6cfd39ca62dd83945a42d44216cd8206, type: 3}
-      propertyPath: currentPosition
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
