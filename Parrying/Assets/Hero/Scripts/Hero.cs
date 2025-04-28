@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Hero : MonoBehaviour {
-    public WeaponCollider weaponCollider { get; private set; }
+    public List<WeaponCollider> weaponCollider = new List<WeaponCollider>();
 
     private Animator            m_animator;
     private Hero_Stats          m_stats;
     private Sensor_Hero         m_sensorHero;
+    private SlashEffect         m_slahEffect;
     private bool                m_combatIdle = false;
     private bool                m_isDead = false;
     private bool                m_controlEnabled = true;
@@ -19,9 +21,9 @@ public class Hero : MonoBehaviour {
     // Use this for initialization
     void Start () {
         m_stats = GetComponent<Hero_Stats>();
-        weaponCollider = GetComponentInChildren<WeaponCollider>();
         m_sensorHero = GetComponentInChildren<Sensor_Hero>();
         m_animator = GetComponent<Animator>();
+        m_slahEffect = GetComponentInChildren<SlashEffect>();
     }
 	
 	// Update is called once per frame
@@ -72,6 +74,26 @@ public class Hero : MonoBehaviour {
             {
                 isParrying = false;
                 m_animator.SetBool("IsParrying", false);
+            }
+
+            if (Input.GetKeyDown("e"))
+            {
+                if (66 > m_stats.skillGage && m_stats.skillGage >= 33)
+                {
+                    m_stats.SkillGageChange(-33f);
+                    m_animator.SetTrigger("Skill1");
+                }
+                else if (99 > m_stats.skillGage && m_stats.skillGage >= 66)
+                {
+                    m_stats.SkillGageChange(-66f);
+                    m_animator.SetTrigger("Skill2");
+                }
+                else if (m_stats.skillGage == 99)
+                {
+                    m_stats.SkillGageChange(-99f);
+                    m_animator.SetTrigger("Skill3");
+                    m_slahEffect.ShowSlashEffect();
+                }
             }
         }
 

@@ -19,6 +19,8 @@ public class Hero_Stats : MonoBehaviour
     public Slider HealthSlider;
     public Slider SkillGageSlider;
 
+    public float skillBonus;
+
     //체력 초기화
     private void Awake()
     {
@@ -83,6 +85,7 @@ public class Hero_Stats : MonoBehaviour
         return currentHealth <= 0;
     }
 
+    // 스킬 게이지 
     public void SkillGageChange(float amount)
     {
         skillGage += amount;
@@ -90,6 +93,7 @@ public class Hero_Stats : MonoBehaviour
         UpdateSkillGageSlider();
     }
 
+    // 슬라이더 업데이트
     private void UpdateSkillGageSlider()
     {
         if (SkillGageSlider != null)

@@ -21,14 +21,26 @@ public class HeroAnimationEvents : MonoBehaviour
 
 
     //공격 애니메이션 용 이벤트
-    public void EnableWeaponCollider()
+    public void EnableWeaponCollider(int index)
     {
-        m_hero.weaponCollider.EnableCollider();
+        m_hero.weaponCollider[index].EnableCollider();
     }
 
-    public void DisableWeaponCollider()
+    public void DisableWeaponCollider(int index)
     {
-        m_hero.weaponCollider.DisableCollider();
+        m_hero.weaponCollider[index].DisableCollider();
+    }
+
+    // 스킬 공격 보너스
+    public void skillAttackBonus(float amount)
+    {
+        m_stats.skillBonus = m_stats.damageMultiplier;
+        m_stats.damageMultiplier += amount;
+    }
+
+    public void ResetSkillAttackBonus()
+    {
+        m_stats.damageMultiplier = m_stats.skillBonus;
     }
 
     //패링
