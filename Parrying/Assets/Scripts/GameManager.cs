@@ -19,10 +19,7 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-        if (hero == null)
-        {
-            hero_animator = hero.GetComponent<Animator>();
-        }
+        hero_animator = hero.GetComponent<Animator>();
     }
     
     private void Start()
