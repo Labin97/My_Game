@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Goblin_Spear
+  m_Controller: {fileID: 9100000, guid: 4e544d33c90e59e45963d18c3fb56359, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 35b8e541c46f89c499f1745bb969001d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: cf7a06af441ca4947b06f5ec11f8762e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: cc5be3afebaa72e43bdd7822e58bf667, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 10d7f0cd11bb94048a889ed6d406767f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 01b742981ad76cb49afb230a79f6b2a0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a2a92d2a624119745b2b471b98773a06, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 89cc92faeb8ba354e9edf1dcd933446e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c4ed91a08cb16ff449ac80b8f39a7cee, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 435e728228ff4f74bbb529d5a18c931e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 63a7c5407b405bb468a59c4b21b5bcdf, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 816a9a6ec4b1d9a449c1b7197ebbe1a9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 10d7f0cd11bb94048a889ed6d406767f, type: 2}

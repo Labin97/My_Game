@@ -1,15 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraShake : MonoBehaviour
+public class CameraShake : Singleton<CameraShake>
 {
-    public static CameraShake Instance;
-
     private Vector3 originalPos;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null) Instance = this;
         originalPos = transform.localPosition;
     }
 

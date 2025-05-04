@@ -269,15 +269,19 @@ public class Monster : MonoBehaviour
         if (MonsterManager.Instance != null)
         {
             MonsterManager.Instance.UnregisterMonster(this);
-            GameManager.Instance.AddSoulPoint(m_stats.soulPoint); // 소울 포인트 추가
+
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.AddSoulPoint(m_stats.soulPoint); // 소울 포인트 추가
+            }
         }
     }
 
     public void PlaySoundEffect(AudioClip clip)
     {
-        if (clip != null && AudioManager.instance != null)
+        if (clip != null && AudioManager.Instance != null)
         {
-            AudioManager.instance.PlayClip(clip); // 사운드 재생
+            AudioManager.Instance.PlayClip(clip); // 사운드 재생
         }
     }
 

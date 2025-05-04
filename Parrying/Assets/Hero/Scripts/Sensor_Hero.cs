@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Sensor_Hero : MonoBehaviour
 {
+    public Collider2D sensorCollider { get; private set; }
     private float invincibleDuration = 0.1f;
     private float m_invincibleTimer = 0f;
     private Animator            m_animator;
@@ -22,6 +23,7 @@ public class Sensor_Hero : MonoBehaviour
 
     private void Awake()
     {
+        sensorCollider = GetComponent<Collider2D>();
         m_animator = GetComponentInParent<Animator>();
         m_hero = GetComponentInParent<Hero>();
         m_stats = GetComponentInParent<Hero_Stats>();
@@ -133,7 +135,7 @@ public class Sensor_Hero : MonoBehaviour
             GameObject bloodEffect = Instantiate(bloodEffectPrefab, hitPosition, Quaternion.identity);
             Destroy(bloodEffect, 1f); // 1초 후에 피 이펙트 삭제
         }
-        AudioManager.instance.PlaySFX("Hurt"); // 피 사운드 재생
+        AudioManager.Instance.PlaySFX("Hurt"); // 피 사운드 재생
     }
     
     private void PlayGuardEffect()
@@ -144,7 +146,7 @@ public class Sensor_Hero : MonoBehaviour
             if (effect != null)
                 effect.Play();
         }
-        AudioManager.instance.PlaySFX("Guard"); // 가드 사운드 재생
+        AudioManager.Instance.PlaySFX("Guard"); // 가드 사운드 재생
     }
 
     private void PlayParryingEffect()
@@ -155,7 +157,7 @@ public class Sensor_Hero : MonoBehaviour
             if (effect != null)
                 effect.Play();
         }
-        AudioManager.instance.PlaySFX("Parrying"); // 패링 사운드 재생
+        AudioManager.Instance.PlaySFX("Parrying"); // 패링 사운드 재생
     }
 
     void Update()

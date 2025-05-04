@@ -42,23 +42,23 @@ public class MonsterAnimationEvents : MonoBehaviour
     public void EnableWeaponCollider()
     {
         m_monster.weaponCollider.EnableCollider();
+        m_monster.isAttacking = true;
     }
     public void DisableWeaponCollider()
     {
         m_monster.weaponCollider.DisableCollider();
+        m_monster.isAttacking = false;
     }
 
     // 센서 콜라이더 활성화 및 비활성화
     public void EnableSensorCollider()
     {
         m_sensorMonster.sensorCollider.enabled = true;
-        m_monster.isAttacking = true;
     }
 
     public void DisableSensorCollider()
     {
         m_sensorMonster.sensorCollider.enabled = false;
-        m_monster.isAttacking = false;
     }
 
     public void StartGuard()

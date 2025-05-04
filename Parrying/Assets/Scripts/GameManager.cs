@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager Instance { get; private set; }
     private float totalSoulPoint = 0;
     private int stageIndex;
     public GameObject[] stages;
@@ -16,23 +16,18 @@ public class GameManager : MonoBehaviour
     public GameObject background;
     private float backgroundChangeDuration = 2f;
     
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
+        base.Awake();
+        if (hero == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 파괴되지 않도록 설정
+            hero_animator = hero.GetComponent<Animator>();
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-        hero_animator = hero.GetComponent<Animator>();
     }
     
     private void Start()
     {
-        AudioManager.instance.PlayBGM("BGM_Stage1"); // 배경음악 재생
+        AudioManager.Instance.PlayBGM("BGM_Stage1"); // 배경음악 재생
         // MonsterManager의 이벤트 구독
         if (MonsterManager.Instance != null)
         {

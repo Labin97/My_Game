@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterManager : MonoBehaviour
+public class MonsterManager : Singleton<MonsterManager>
 {
-    public static MonsterManager Instance { get; private set; }
     private List<Monster> activeMonsters = new List<Monster>();
     
     // 모든 몬스터가 죽었을 때 발생하는 이벤트
@@ -14,19 +13,6 @@ public class MonsterManager : MonoBehaviour
     
     // 이전에 모든 몬스터가 죽었는지 상태를 저장
     private bool wasAllDead = false;
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 파괴되지 않도록 설정
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     
     private void Update()
     {

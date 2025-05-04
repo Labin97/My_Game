@@ -90,4 +90,15 @@ public class HeroAnimationEvents : MonoBehaviour
     {
         m_hero.isPerfectGuard = false;
     }
+
+    //센서 콜라이더 활성화 및 비활성화
+    public void EnableSensorCollider()
+    {
+        m_sensorHero.sensorCollider.enabled = true;
+    }
+
+    public void DisableSensorCollider()
+    {
+        m_sensorHero.sensorCollider.enabled = false;
+    }
 }

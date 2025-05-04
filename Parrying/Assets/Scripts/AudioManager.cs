@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Singleton<AudioManager>
 {
     // 싱글톤 인스턴스
     public static AudioManager instance;
@@ -26,23 +26,13 @@ public class AudioManager : MonoBehaviour
         public AudioClip clip;
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        // 싱글톤 패턴 구현
-        if (instance == null)
+        base.Awake();
+        // 딕셔너리에 사운드 추가
+        foreach (Sound sound in sounds)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            
-            // 딕셔너리에 사운드 추가
-            foreach (Sound sound in sounds)
-            {
-                soundDictionary.Add(sound.name, sound.clip);
-            }
-        }
-        else
-        {
-            Destroy(gameObject);
+            soundDictionary.Add(sound.name, sound.clip);
         }
     }
     
