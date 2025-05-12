@@ -2,10 +2,10 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class AudioManager : Singleton<AudioManager>
+public class AudioManager : MonoBehaviour
 {
     // 싱글톤 인스턴스
-    public static AudioManager instance;
+    private static AudioManager instance;
 
     // 배경음악 재생용 AudioSource
     public AudioSource bgmSource;
@@ -26,13 +26,34 @@ public class AudioManager : Singleton<AudioManager>
         public AudioClip clip;
     }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         // 딕셔너리에 사운드 추가
         foreach (Sound sound in sounds)
         {
             soundDictionary.Add(sound.name, sound.clip);
+        }
+    }
+
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                return null;
+            }
+            return instance;
         }
     }
     

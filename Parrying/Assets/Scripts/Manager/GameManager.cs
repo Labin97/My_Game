@@ -6,8 +6,10 @@ using DG.Tweening;
 using TMPro;
 using System;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    // 싱글톤 인스턴스
+    private static GameManager instance;
     private float totalSoulPoint = 0;
     private int stageIndex;
     public GameObject[] stages;
@@ -16,11 +18,32 @@ public class GameManager : Singleton<GameManager>
     public GameObject background;
     private float backgroundChangeDuration = 2f;
     
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         if (hero != null)
             hero_animator = hero.GetComponent<Animator>();
+    }
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                return null;
+            }
+            return instance;
+        }
     }
     
     private void Start()
@@ -36,7 +59,7 @@ public class GameManager : Singleton<GameManager>
     private void OnDestroy()
     {
         // 이벤트 구독 해제
-        if (MonsterManager.HasInstance)
+        if (MonsterManager.Instance != null)
         {
             MonsterManager.Instance.OnAllMonstersDead -= OnAllMonstersDead;
         }
