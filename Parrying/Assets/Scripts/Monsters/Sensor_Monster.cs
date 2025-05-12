@@ -52,7 +52,6 @@ public class Sensor_Monster : MonoBehaviour
         }
 
         Hurt(damage, applyStun, other);
-        heroStats.SkillGageChange(5f);
     }  
 
     private void Hurt(float damage, bool applyStun, Collider2D other)

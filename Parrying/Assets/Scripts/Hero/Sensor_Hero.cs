@@ -6,19 +6,19 @@ public class Sensor_Hero : MonoBehaviour
     public Collider2D sensorCollider { get; private set; }
     private float invincibleDuration = 0.1f;
     private float m_invincibleTimer = 0f;
-    private Animator            m_animator;
-    private Hero_Stats          m_stats;
-    private Hero                m_hero; 
+    private Animator m_animator;
+    private Hero_Stats m_stats;
+    private Hero m_hero;
     [SerializeField]
-    private GameObject          bloodEffectPrefab; // 피 이펙트 프리팹
+    private GameObject bloodEffectPrefab; // 피 이펙트 프리팹
     [SerializeField]
-    private GameObject          guardEffectPrefab; // 가드 이펙트 프리팹
+    private GameObject guardEffectPrefab; // 가드 이펙트 프리팹
     [SerializeField]
-    private Transform           guardEffectPoint; // 가드 이펙트 위치
+    private Transform guardEffectPoint; // 가드 이펙트 위치
     [SerializeField]
-    private GameObject          parryingEffectPrefab; // 패링 이펙트 프리팹
-    private GameObject          guardEffectInstance; // 가드 이펙트 인스턴스
-    private GameObject          parryingEffectInstance; // 패링 이펙트 인스턴스
+    private GameObject parryingEffectPrefab; // 패링 이펙트 프리팹
+    private GameObject guardEffectInstance; // 가드 이펙트 인스턴스
+    private GameObject parryingEffectInstance; // 패링 이펙트 인스턴스
 
 
     private void Awake()
@@ -39,7 +39,7 @@ public class Sensor_Hero : MonoBehaviour
     {
         // 무적 시간 안이거나 애니메이션이 Hurt 상태일 때 무시
         if (m_invincibleTimer > 0f || m_animator.GetCurrentAnimatorStateInfo(0).IsName("Hurt"))
-           return;
+            return;
 
         // 몬스터의 공격력 가져오기
         Monster_Stats monsterStats = other.GetComponentInParent<Monster_Stats>();
@@ -81,7 +81,7 @@ public class Sensor_Hero : MonoBehaviour
                     PlayGuardEffect(); // 가드 이펙트 재생
                     m_stats.SkillGageChange(11f);
                 }
-                else 
+                else
                 {
                     // 일반 가드 상태에서의 파워 어택 체크
                     Animator otherAnimator = other.GetComponentInParent<Animator>();
@@ -123,7 +123,7 @@ public class Sensor_Hero : MonoBehaviour
             Debug.Log("Hero is dead.");
             m_animator.SetBool("Death", true); // 죽음 애니메이션 재생
             GetComponent<Collider2D>().enabled = false; // 히어로의 콜라이더 비활성화
-            return ;
+            return;
         }
     }
 
@@ -137,7 +137,7 @@ public class Sensor_Hero : MonoBehaviour
         }
         AudioManager.Instance.PlaySFX("Hurt"); // 피 사운드 재생
     }
-    
+
     private void PlayGuardEffect()
     {
         if (guardEffectInstance != null && guardEffectPoint != null)
