@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-        if (hero == null)
+        if (hero != null)
             hero_animator = hero.GetComponent<Animator>();
     }
     
@@ -36,7 +36,7 @@ public class GameManager : Singleton<GameManager>
     private void OnDestroy()
     {
         // 이벤트 구독 해제
-        if (MonsterManager.Instance != null)
+        if (MonsterManager.HasInstance)
         {
             MonsterManager.Instance.OnAllMonstersDead -= OnAllMonstersDead;
         }
