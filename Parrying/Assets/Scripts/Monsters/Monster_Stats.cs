@@ -8,7 +8,7 @@ public class Monster_Stats : MonoBehaviour
     public float baseHealth = 100f;
     public float damageMultiplier = 1f;
     public float attackSpeedMultiplier = 1f;
-    public float soulPoint = 10f; // 소울
+    public int soulPoint = 10; // 소울
     public float DeathTime = 2f; // 죽는 시간
     public bool  SuperArmor = false;
 

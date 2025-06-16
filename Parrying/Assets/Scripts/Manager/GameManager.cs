@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     // 싱글톤 인스턴스
     private static GameManager instance;
-    private float totalSoulPoint = 0;
+    private int totalSoulPoint = 0;
     private int stageIndex;
     public GameObject[] stages;
     public Hero hero;
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject menuSet;
     private float backgroundChangeDuration = 2f;
     private bool isPaused = false;
+    public TextMeshProUGUI soulText;
 
     private void Awake()
     {
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
             hero_animator = hero.GetComponent<Animator>();
 
         //게임 로드 관련
-        // GameLoad();
+        GameLoad();
     }
 
     public static GameManager Instance
@@ -60,6 +61,9 @@ public class GameManager : MonoBehaviour
         {
             MonsterManager.Instance.OnAllMonstersDead += OnAllMonstersDead;
         }
+
+        //초기 UI 업데이트
+        UpdateSoulUI();
     }
 
     private void Update()
@@ -69,6 +73,8 @@ public class GameManager : MonoBehaviour
         {
             TogglePause();
         }
+
+
     }
 
     private void OnDestroy()
@@ -107,9 +113,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddSoulPoint(float amount)
+    public void AddSoulPoint(int amount)
     {
         totalSoulPoint += amount;
+        UpdateSoulUI();
+    }
+
+    private void UpdateSoulUI()
+    {
+        if (soulText != null)
+        {
+            soulText.text = $"{totalSoulPoint:F0}";
+        }
+
+        Color originalColor = soulText.color;
+        soulText.color = Color.yellow;
+        soulText.DOColor(originalColor, 0.5f);
+        
+        // 크기 변화 효과
+        soulText.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
     }
 
     private void changeBackground(float duration)
@@ -141,14 +163,16 @@ public class GameManager : MonoBehaviour
 
     public void GameSave()
     {
-        ES3.Save("stageIndex", stageIndex);
-        Debug.Log($"게임 저장 완료 - stage: {stageIndex}");
+        // ES3.Save("stageIndex", stageIndex);
+        ES3.Save("soul", totalSoulPoint);
+        Debug.Log($"게임 저장 완료");
     }
 
     public void GameLoad()
     {
-        stageIndex = ES3.Load<int>("stageIndex", 0);
-        Debug.Log($"게임 로드 완료 - stage: {stageIndex}");
+        // stageIndex = ES3.Load<int>("stageIndex", 0);
+        totalSoulPoint = ES3.Load("soul", 0);
+        Debug.Log($"게임 로드 완료");
     }
 
     public void GameReset()
