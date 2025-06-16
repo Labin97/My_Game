@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,9 @@ public class GameManager : MonoBehaviour
 
         if (hero != null)
             hero_animator = hero.GetComponent<Animator>();
+
+        //게임 로드 관련
+        // GameLoad();
     }
 
     public static GameManager Instance
@@ -136,8 +140,26 @@ public class GameManager : MonoBehaviour
             });
     }
 
+
+    public void GameSave()
+    {
+        ES3.Save("stageIndex", stageIndex);
+        Debug.Log($"게임 저장 완료 - stage: {stageIndex}");
+    }
+
+    public void GameLoad()
+    {
+        stageIndex = ES3.Load<int>("stageIndex", 0);
+        Debug.Log($"게임 로드 완료 - stage: {stageIndex}");
+    }
+
+    public void GameReset()
+    {
+    }
+
     public void GameExit()
     {
+        GameSave();
         Application.Quit();
     }
 }
