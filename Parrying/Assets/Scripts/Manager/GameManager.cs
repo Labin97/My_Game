@@ -79,11 +79,16 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        // DOTween 정리
+        DOTween.KillAll();
+
         // 이벤트 구독 해제
         if (MonsterManager.Instance != null)
         {
             MonsterManager.Instance.OnAllMonstersDead -= OnAllMonstersDead;
         }
+
+        DOTween.Clear();
     }
 
     // 모든 몬스터가 죽었을 때 호출되는 메서드
@@ -124,14 +129,14 @@ public class GameManager : MonoBehaviour
         if (soulText != null)
         {
             soulText.text = $"{totalSoulPoint:F0}";
+            Color originalColor = soulText.color;
+            soulText.color = Color.yellow;
+            soulText.DOColor(originalColor, 0.5f);
+        
+            // 크기 변화 효과
+            soulText.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
         }
 
-        Color originalColor = soulText.color;
-        soulText.color = Color.yellow;
-        soulText.DOColor(originalColor, 0.5f);
-        
-        // 크기 변화 효과
-        soulText.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f);
     }
 
     private void changeBackground(float duration)
