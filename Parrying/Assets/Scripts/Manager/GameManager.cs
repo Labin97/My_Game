@@ -100,6 +100,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator NextStage()
     {
+        //게임 저장
+        GameSave();
+
         yield return new WaitForSeconds(2f); // 2초 대기
         int currentStageIndex = stageIndex;
         if (currentStageIndex < stages.Length - 1)
