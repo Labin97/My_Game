@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject background;
     public GameObject menuSet;
     private float backgroundChangeDuration = 2f;
+    private bool isPaused = false;
 
     private void Awake()
     {
@@ -66,10 +67,7 @@ public class GameManager : MonoBehaviour
         // 메뉴 on/off
         if (Input.GetButtonDown("Cancel"))
         {
-            if (menuSet.activeSelf)
-                menuSet.SetActive(false);
-            else
-                menuSet.SetActive(true);
+            TogglePause();
         }
     }
 
@@ -161,5 +159,39 @@ public class GameManager : MonoBehaviour
     {
         GameSave();
         Application.Quit();
+    }
+
+    private void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            //게임 일시 정지
+            Time.timeScale = 0f;
+            menuSet.SetActive(true);
+
+            //DOTween 일시정지
+            DOTween.PauseAll();
+
+            Debug.Log("게임 일시정지");
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            menuSet.SetActive(false);
+
+            DOTween.PlayAll();
+
+            Debug.Log("게임 재개");
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (isPaused)
+        {
+            TogglePause();
+        }
     }
 }
