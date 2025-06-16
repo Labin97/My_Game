@@ -265,6 +265,12 @@ public class Monster : MonoBehaviour
 
     private void OnDestroy()
     {
+        // 이동 중인 DOTween 정리
+        if (transform != null)
+        {
+            transform.DOKill();
+        }
+
         // 몬스터 매니저에서 제거
         if (MonsterManager.Instance != null)
         {

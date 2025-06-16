@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
     {
         // DOTween 정리
         DOTween.KillAll();
+        DOTween.Clear();
 
         // 이벤트 구독 해제
         if (MonsterManager.Instance != null)
@@ -88,7 +89,6 @@ public class GameManager : MonoBehaviour
             MonsterManager.Instance.OnAllMonstersDead -= OnAllMonstersDead;
         }
 
-        DOTween.Clear();
     }
 
     // 모든 몬스터가 죽었을 때 호출되는 메서드
