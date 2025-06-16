@@ -170,6 +170,7 @@ public class GameManager : MonoBehaviour
             //게임 일시 정지
             Time.timeScale = 0f;
             menuSet.SetActive(true);
+            hero.SetControlEnabled(false);
 
             //DOTween 일시정지
             DOTween.PauseAll();
@@ -180,6 +181,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1f;
             menuSet.SetActive(false);
+            hero.SetControlEnabled(true);
 
             DOTween.PlayAll();
 

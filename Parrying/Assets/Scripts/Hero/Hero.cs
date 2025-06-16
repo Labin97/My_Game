@@ -56,7 +56,7 @@ public class Hero : MonoBehaviour {
             m_animator.SetBool("Guard", false);
         }
 
-        if (!isGuarding)
+        if (!isGuarding && canMove)
         {
             //Attack
             if(Input.GetMouseButtonDown(0)) {
