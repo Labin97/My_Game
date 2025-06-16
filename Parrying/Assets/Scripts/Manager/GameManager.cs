@@ -16,8 +16,9 @@ public class GameManager : MonoBehaviour
     public Hero hero;
     private Animator hero_animator;
     public GameObject background;
+    public GameObject menuSet;
     private float backgroundChangeDuration = 2f;
-    
+
     private void Awake()
     {
         if (instance == null)
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    
+
     private void Start()
     {
         AudioManager.Instance.PlayBGM("BGM_Stage1"); // 배경음악 재생
@@ -55,7 +56,19 @@ public class GameManager : MonoBehaviour
             MonsterManager.Instance.OnAllMonstersDead += OnAllMonstersDead;
         }
     }
-    
+
+    private void Update()
+    {
+        // 메뉴 on/off
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (menuSet.activeSelf)
+                menuSet.SetActive(false);
+            else
+                menuSet.SetActive(true);
+        }
+    }
+
     private void OnDestroy()
     {
         // 이벤트 구독 해제
@@ -64,14 +77,14 @@ public class GameManager : MonoBehaviour
             MonsterManager.Instance.OnAllMonstersDead -= OnAllMonstersDead;
         }
     }
-    
+
     // 모든 몬스터가 죽었을 때 호출되는 메서드
     private void OnAllMonstersDead()
     {
         Debug.Log("모든 몬스터가 처치되었습니다! 다음 스테이지로 진행합니다.");
         StartCoroutine(NextStage());
     }
-    
+
     IEnumerator NextStage()
     {
         yield return new WaitForSeconds(2f); // 2초 대기
@@ -91,7 +104,7 @@ public class GameManager : MonoBehaviour
             // 게임 클리어 로직
         }
     }
-    
+
     public void AddSoulPoint(float amount)
     {
         totalSoulPoint += amount;
@@ -103,22 +116,28 @@ public class GameManager : MonoBehaviour
         // 이동 중에는 플레이어 컨트롤 비활성화
         hero.SetControlEnabled(false);
         hero.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-        
+
         // 배경의 현재 위치 저장
         Vector3 startPos = background.transform.position;
         // 이동할 목표 위치 (왼쪽으로)
         Vector3 targetPos = new Vector3(startPos.x - 10f, startPos.y, startPos.z);
-        
+
         // DOTween으로 배경을 왼쪽으로 이동
         background.transform.DOMoveX(targetPos.x, duration)
             .SetEase(Ease.Linear)
-            .OnComplete(() => {
+            .OnComplete(() =>
+            {
                 // 이동이 완료되면 컨트롤 다시 활성화
                 hero.SetControlEnabled(true);
                 hero_animator.SetBool("Run", false);
-                
+
                 // 배경을 다시 원위치로 설정 (시각적으로 연속되도록)
                 background.transform.position = startPos;
             });
+    }
+
+    public void GameExit()
+    {
+        Application.Quit();
     }
 }
